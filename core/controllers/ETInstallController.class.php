@@ -192,7 +192,7 @@ public function action_install()
 	ET::$config = array_merge(ET::$config, $config);
 
 	// Initialize the database with our MySQL details.
-	ET::$database->init(C("esoTalk.database.host"), C("esoTalk.database.user"), C("esoTalk.database.password"), C("esoTalk.database.dbName"), C("esoTalk.database.prefix"), C("esoTalk.database.connectionOptions"));
+	ET::$database->init(C("esoTalk.database.host"), C("esoTalk.database.user"), C("esoTalk.database.password"), C("esoTalk.database.dbName"), C("esoTalk.database.prefix"), C("esoTalk.database.connectionOptions"), C("esoTalk.database.port"));
 
 	// Run the upgrade model's install function.
 	try {
@@ -204,7 +204,7 @@ public function action_install()
 	// Write the $config variable to config.php.
 	@unlink(PATH_CONFIG."/config.php");
 	ET::writeConfig($config);
-/*
+	/*
 	// Write custom.css and index.html as empty files (if they're not already there.)
 	if (!file_exists(PATH_CONFIG."/custom.css")) file_put_contents(PATH_CONFIG."/custom.css", "");
 	file_put_contents(PATH_CONFIG."/index.html", "");
