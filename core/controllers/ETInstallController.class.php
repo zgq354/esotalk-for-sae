@@ -102,7 +102,7 @@ public function action_info()
 	$form->setValue("baseURL", $baseURL);
 
 	// Work out if we can handle friendly URLs.
-	if (!empty($_SERVER["REQUEST_URI"])) $form->setValue("friendlyURLs", true);
+	//if (!empty($_SERVER["REQUEST_URI"])) $form->setValue("friendlyURLs", true);
 
 	// If the form was submitted...
 	if ($form->isPostBack("submit")) {

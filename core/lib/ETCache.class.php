@@ -37,7 +37,7 @@ class ETCache {
  */
 public function exists($key)
 {
-    //return false;
+    if( $this->mmc == false ) return false;
     return $this->mmc->get($key)?true:false;
 }
 
@@ -50,6 +50,7 @@ public function exists($key)
 public function get($key)
 {
     //return false;
+	if( $this->mmc == false ) return false;
     return $this->mmc->get($key);
 }
 
@@ -64,6 +65,7 @@ public function get($key)
 public function store($key, $value, $ttl = 0)
 {
     //return true;
+	if( $this->mmc == false ) return true;
     return $this->mmc->set($key, $value ,0, $ttl);
 }
 
@@ -76,6 +78,7 @@ public function store($key, $value, $ttl = 0)
 public function remove($key)
 {
     //return true;
+	if( $this->mmc == false ) return true;
     return $this->mmc->delete($key);
 
 }

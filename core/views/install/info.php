@@ -22,7 +22,6 @@ $form = $data["form"];
 	<ul class='form'>
 		<li><?php echo $form->input("forumTitle", "text", array("placeholder" => T("Forum title"))); ?></li>
 		<li class='advanced'><?php echo $form->input("baseURL", "text", array("placeholder" => T("Base URL"))); ?></li>
-		<li class='advanced'><label><?php echo $form->checkbox("friendlyURLs"); ?> <?php echo T("Use friendly URLs"); ?></label></li>
 	</ul>
 
 

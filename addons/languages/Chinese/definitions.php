@@ -121,7 +121,7 @@ $definitions["Create Channel"] = "添加节点";
 $definitions["Create Group"] = "添加小组";
 $definitions["Create Member"] = "添加成员";
 $definitions["Customize how users can become members of your forum."] = "开启/关闭新会员注册";
-$definitions["Customize your forum's appearance"] = "定制社区外观";
+$definitions["Customize your forum's appearance"] = "更改社区外观";
 
 $definitions["Dashboard"] = "系统";
 $definitions["Default forum language"] = "默认语言";
@@ -242,7 +242,7 @@ $definitions["Make member and online list visible to:"] = "设置会员列表显
 $definitions["Manage Channels"] = "管理节点";
 $definitions["Manage Groups"] = "管理群组";
 $definitions["Manage Languages"] = "管理语言";
-$definitions["Manage your forum's channels (categories)"] = "管理社区节点（类别）";
+$definitions["Manage your forum's channels (categories)"] = "管理社区节点（分类）";
 $definitions["Mark as read"] = "标为已读";
 $definitions["Mark as unread"] = "标为未读";
 $definitions["Mark all as read"] = "全部标记为已读"; 
@@ -372,7 +372,7 @@ $definitions["Suspend member"] = "屏蔽成员";
 $definitions["Suspend members."] = "屏蔽成员";
 $definitions["Suspend"] = "屏蔽";
 
-$definitions["To get started with your forum, you might like to:"] = "开始你的社区，你可能会想：";
+$definitions["To get started with your forum, you might like to:"] = "现在开始你的esoTalk, 你可以：";
 
 $definitions["Unapproved"] = "不同意";
 $definitions["Unhide"] = "取消隐藏";
@@ -406,7 +406,7 @@ $definitions["viewingPosts"] = "<b>%s-%s</b>%s发布的";
 
 $definitions["Warning"] = "不可以这样！";
 $definitions["Welcome to esoTalk!"] = "Welcome to esoTalk!";
-$definitions["We've logged you in and taken you straight to your forum's administration panel. You're welcome."] = "我们已经记录完毕,你直接去社区管理面板。欢迎你！";
+$definitions["We've logged you in and taken you straight to your forum's administration panel. You're welcome."] = "安装成功！！欢迎来到esoTalk的世界！！这里是esoTalk的管理面板。";
 $definitions["Write a reply..."] = "回复点什么...";
 
 $definitions["Yes"] = "是";
@@ -420,19 +420,19 @@ $definitions["message.accountNotYetApproved"] = "管理员还没有审核，耐�
 $definitions["message.ajaxDisconnected"] = "你的信号不太好呢!<a href='javascript:jQuery.ETAjax.resumeAfterDisconnection()'>重试</a>, or <a href='' onclick='window.location.reload();return false'>刷新</a>.";
 $definitions["message.ajaxRequestPending"] = "服务器正在处理,请稍候并且不要关闭页面.";
 $definitions["message.avatarError"] = "上传头像失败,请上传正确图像格式文件,如PNG,JPG,PNG或GIF.";
-$definitions["message.cannotDeleteLastChannel"] = "最近一个节点不能删除!";
+$definitions["message.cannotDeleteLastChannel"] = "最后一个节点不能删除!";
 $definitions["message.cannotEditSinceReply"] = "已经不能再次编辑了";
 $definitions["message.changesSaved"] = "保存成功.";
 $definitions["message.channelsHelp"] = "节点用于分类论坛上的话题,请合理添加,支持拖拽重新排列!";
 $definitions["message.channelSlugTaken"] = "这个固定链接已经被别的节点占用";
 $definitions["message.confirmDelete"] = "确定永久删除?";
 $definitions["message.confirmDiscardPost"] = "没有保存草稿，舍弃吗?";
-$definitions["message.confirmEmail"] = "成为正式会员之前,你需要确认电子邮箱地址!马上你会收到一封包含一个链接用于激活你的帐户的电子邮件";
+$definitions["message.confirmEmail"] = "成为正式会员之前,你需要确认电子邮箱地址!你会收到一封包含一个链接用于激活你的帐户的电子邮件";
 $definitions["message.confirmLeave"] = "草稿还没有保存,真的要舍弃并离开吗?";
 $definitions["message.connectionError"] = "无法连接数据库. 返回错误为:<br/>%s";
 $definitions["message.conversationDeleted"] = "话题删除成功!";
 $definitions["message.conversationNotFound"] = "无法查看话题,它可能已被删除或者你没有权限.";
-$definitions["message.cookieAuthenticationTheft"] = "由于账户安全原因,请你重新登录!";
+$definitions["message.cookieAuthenticationTheft"] = "由于账户安全原因,你需要重新登录!";
 $definitions["message.deleteChannelHelp"] = "节点及节点内所有话题将永久删除!删除前可以将话题转移到别的节点以保留话题.";
 $definitions["message.emailConfirmed"] = "你的帐户已成功激活! 你现在可以参加讨论或者<a href='".URL("conversation/start")."'>发布</a>一个话题.";
 $definitions["message.emailDoesntExist"] = "找不到该用户,请确认后重试!";

@@ -1,3 +1,28 @@
+## esoTalk for SinaAppEngine
+
+esoTalk SAE移植版本
+
+###说明
+
+1. 基于esoTalk 1.0.0g4移植而成(未来将与原版保持同步)
+2. 为sae环境做了大量优化, 速度极快
+3. 依赖的服务：MySQL(MyISAM引擎), memcache(5M), kvdb(存储配置文件及css和js缓存), storage(存储头像和附件)
+4. 中文搜索优化(未完美解决)
+5. 支持上传附件
+
+###如何安装？
+
+1. 在sae后台中创建应用，选择php5.6环境，并在代码管理页创建一个版本
+2. 下载本项目的代码，解压后将文件中的代码打包上传或用svn推送至sae中
+3. 初始化mysql(选MyISAM引擎)
+4. 初始化memcache(容量5M即可，多点也无所谓)
+5. 在storage中创建一个名为esotalk的domain
+6. 访问你的应用地址，按提示安装即可
+
+遇到问题或bug，可在 [http://esotalks.sinaapp.com/](http://esotalks.sinaapp.com/) 上求助。或提交issue
+
+欢迎大家和我一同完善这个项目~
+
 ## esoTalk – Fat-free forum software
 
 esoTalk is a free, open-source forum software package built with PHP and MySQL. It is designed to be:
