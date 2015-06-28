@@ -1,0 +1,23 @@
+name: esotalk
+version: 1
+handle:
+- rewrite: if (%{REQUEST_URI} ~ "config/(.*).css") goto "/storage.php?d=USE_KVDB&f=%{REQUEST_URI}"
+- rewrite: if (%{REQUEST_URI} ~ "cache/(.*)") goto "/storage.php?d=USE_KVDB&f=%{REQUEST_URI}"
+- rewrite: if(!is_dir() && !is_file()) goto "/index.php/%{QUERY_STRING}"
+
+- compress: if ( out_header["Content-type"] ~ "text/css" ) compress
+- compress: if ( out_header["Content-type"] ~ "text/javascript" ) compress
+- compress: if ( out_header["Content-type"] ~ "application/zip" ) compress
+- compress: if ( out_header["Content-type"] ~ "application/json" ) compress
+- compress: if ( out_header["Content-type"] ~ "application/x-zip-compressed" ) compress
+- compress: if ( out_header["Content-type"] ~ "application/pdf" ) compress
+- compress: if ( out_header["Content-type"] ~ "application/msword" ) compress
+- compress: if ( out_header["Content-type"] ~ "application/vnd.ms-excel" ) compress
+- compress: if ( out_header["Content-type"] ~ "application/vnd.ms-powerpoint" ) compress
+- compress: if ( out_header["Content-type"] ~ "text/plain" ) compress
+- compress: if ( out_header["Content-type"] ~ "image/jpeg" ) compress
+- compress: if ( out_header["Content-type"] ~ "image/png" ) compress
+- compress: if ( out_header["Content-type"] ~ "image/pjpeg" ) compress
+- compress: if ( out_header["Content-type"] ~ "image/gif" ) compress
+- compress: if ( out_header["Content-type"] ~ "image/bmp" ) compress
+- compress: if ( out_header["Content-type"] ~ "application/x-shockwave-flash" ) compress

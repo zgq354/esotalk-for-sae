@@ -96,7 +96,16 @@ public $includeIgnored = false;
  */
 public $fulltext = array();
 
+//Cache namespace key
+public $ns_key = false;
 
+const CACHE_NS_KEY = "conversation_ns";
+
+//Cache key prefix
+
+const CACHE_KEY = "search_results";
+
+const CACHE_CID_KEY = "c_id";
 /**
  * Class constructor. Sets up the inherited model functions to handle data in the search table
  * (used for logging search activity -> flood control.)
@@ -397,7 +406,22 @@ public function getConversationIDs($channelIDs = array(), $searchString = "", $o
 
 		// Run a query against the posts table to get matching conversation IDs.
 		$fulltextString = implode(" ", $this->fulltext);
-		$fulltextQuery = ET::SQL()
+		if(preg_match('/[\x80-\xff]/i',$fulltextString))
+		{
+			
+			$fulltextQuery = ET::SQL()
+			->select("DISTINCT conversationId")
+			->from("post")
+			->where("(title LIKE :fulltext) OR (content LIKE :fulltext)")
+			->where($idCondition)
+			->orderBy("conversationId DESC")
+			->bind(":fulltext", "%".$fulltextString."%")
+			->bind(":fulltextOrder", $fulltextString);
+
+		}
+		else
+		{
+			$fulltextQuery = ET::SQL()
 			->select("DISTINCT conversationId")
 			->from("post")
 			->where("MATCH (title, content) AGAINST (:fulltext IN BOOLEAN MODE)")
@@ -406,6 +430,8 @@ public function getConversationIDs($channelIDs = array(), $searchString = "", $o
 			->bind(":fulltext", $fulltextString)
 			->bind(":fulltextOrder", $fulltextString);
 
+		}
+		
 		$this->trigger("fulltext", array($fulltextQuery, $this->fulltext));
 
 		$result = $fulltextQuery->exec();
@@ -429,11 +455,23 @@ public function getConversationIDs($channelIDs = array(), $searchString = "", $o
 	// Make sure conversations that the user isn't allowed to see are filtered out.
 	ET::conversationModel()->addAllowedPredicate($this->sql);
 
-	// Execute the query, and collect the final set of conversation IDs.
-	$result = $this->sql->exec();
-	$conversationIDs = array();
-	while ($row = $result->nextRow()) $conversationIDs[] = reset($row);
-
+	//load cache
+	$this->ns_key = $this->ns_key ? $this->ns_key : ET::$cache->get(self::CACHE_NS_KEY);
+	$ns_key = $this->ns_key;
+	if($ns_key === false){
+		$ns_key = time();
+		ET::$cache->store(self::CACHE_NS_KEY,$ns_key);	
+	}
+	$my_key = self::CACHE_CID_KEY.'_'.$ns_key.'_'.md5($this->sql->__toString()); 
+	$conversationIDs = ET::$cache->get($my_key);
+	//当返回数组没有元素时也会当作false判断，所以要判断值和类型
+	if($conversationIDs === false){
+		// Execute the query, and collect the final set of conversation IDs.
+		$result = $this->sql->exec();
+		$conversationIDs = array();
+		while ($row = $result->nextRow()) $conversationIDs[] = reset($row);
+		ET::$cache->store($my_key,$conversationIDs);
+	}
 	// If there's one more result than we actually need, indicate that there are "more results."
 	if (count($conversationIDs) == $this->limit + 1) {
 		array_pop($conversationIDs);
@@ -488,21 +526,34 @@ public function getResults($conversationIDs, $checkForPermission = false)
 
 	$this->trigger("beforeGetResults", array(&$sql));
 
-	// Execute the query and put the details of the conversations into an array.
-	$result = $sql->exec();
-	$results = array();
-	$model = ET::conversationModel();
-
-	while ($row = $result->nextRow()) {
-
-		// Expand the comma-separated label flags into a workable array of active labels.
-		$row["labels"] = $model->expandLabels($row["labels"]);
-
-		$row["replies"] = max(0, $row["countPosts"] - 1);
-		$results[] = $row;
-
+	//load cache
+	//$ns_key = ET::$cache->get(self::CACHE_NS_KEY);
+	$this->ns_key = $this->ns_key ? $this->ns_key : ET::$cache->get(self::CACHE_NS_KEY);
+	$ns_key = $this->ns_key;
+	if($ns_key === false){
+		$ns_key = time();
+		ET::$cache->store(self::CACHE_NS_KEY,$ns_key);
 	}
+	$my_key = self::CACHE_KEY.'_'.$ns_key.'_'.md5($sql->__toString()); 
+	$results = ET::$cache->get($my_key);
+	if($results === false){
+		// Execute the query and put the details of the conversations into an array.
+		$result = $sql->exec();
+		$results = array();
+		$model = ET::conversationModel();
 
+		while ($row = $result->nextRow()) {
+
+			// Expand the comma-separated label flags into a workable array of active labels.
+			$row["labels"] = $model->expandLabels($row["labels"]);
+
+			$row["replies"] = max(0, $row["countPosts"] - 1);
+			$results[] = $row;
+
+		}
+		//Store cache
+		ET::$cache->store($my_key,$results);
+	}
 	$this->trigger("afterGetResults", array(&$results));
 
 	return $results;

@@ -218,6 +218,8 @@ public function login($name, $password, $remember = false)
 
 	// Set a persistent login "remember me" cookie?
 	if ($return === true and $remember) $this->setRememberCookie($this->userId);
+	//remove online number cache
+	ET::$cache->remove("online");
 
 	return $return;
 }
@@ -304,6 +306,9 @@ public function logout()
 
 	// Eat the persistent login cookie. OM NOM NOM
 	if ($this->getCookie("persistent")) $this->setCookie("persistent", false, -1);
+	//remove online number cache
+	ET::$cache->remove("online");
+	
 
 	$this->trigger("logout");
 }

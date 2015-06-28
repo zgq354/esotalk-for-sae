@@ -181,10 +181,10 @@ public function action_index($conversationId = false, $year = false, $month = fa
 		$this->canonicalURL = URL($url, true);
 
 		// If the slug in the URL is not the same as the actual slug, redirect.
-		$slug = slug($conversation["title"]);
-		if ($slug and (strpos($conversationId, "-") === false or substr($conversationId, strpos($conversationId, "-") + 1) != $slug)) {
-			redirect(URL($url), 301);
-		}
+        //$slug = slug($conversation["title"]);
+        //if ($slug and (strpos($conversationId, "-") === false or substr($conversationId, strpos($conversationId, "-") + 1) != $slug)) {
+        //redirect(URL($url), 301);
+        //}
 
 		// Push onto the top of the naviagation stack.
 		$this->pushNavigation("conversation/".$conversation["conversationId"], "conversation", URL($url));
@@ -610,6 +610,9 @@ public function toggle($conversationId, $type)
 
 	$function = "set".ucfirst($type);
 	ET::conversationModel()->$function($conversation, !$conversation[$type]);
+	//Flush conversition cache
+	$sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
 
 	// For the default response type, redirect back to the conversation.
 	if ($this->responseType === RESPONSE_TYPE_DEFAULT) {

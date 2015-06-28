@@ -55,7 +55,7 @@ class ETPlugin_Debug extends ETPlugin {
 		parent::init();
 
 		// Turn debug mode on.
-		if (!ET::$session->isAdmin()) return;
+		//if (!ET::$session->isAdmin()) return;
 		ET::$config["esoTalk.debug"] = true;
 	}
 
@@ -67,7 +67,7 @@ class ETPlugin_Debug extends ETPlugin {
 	 */
 	public function handler_init()
 	{
-		if (!ET::$session->isAdmin()) return;
+		//if (!ET::$session->isAdmin()) return;
 		ET::$controller->addCSSFile($this->resource("debug.css"), true);
 		ET::$controller->addJSFile($this->resource("debug.js"), true);
 	}
@@ -80,7 +80,7 @@ class ETPlugin_Debug extends ETPlugin {
 	 */
 	public function handler_database_beforeQuery($sender, $query)
 	{
-		if (is_object(ET::$session) and !ET::$session->isAdmin()) return;
+		//if (is_object(ET::$session) and !ET::$session->isAdmin()) return;
 
 		$this->queryStartTime = microtime(true);
 		$this->backtrace = debug_backtrace();
@@ -94,7 +94,7 @@ class ETPlugin_Debug extends ETPlugin {
 	 */
 	public function handler_database_afterQuery($sender, $result)
 	{
-		if (is_object(ET::$session) and !ET::$session->isAdmin()) return;
+		//if (is_object(ET::$session) and !ET::$session->isAdmin()) return;
 
 		// The sixth item in the backtrace is typically the model. Screw being reliable.
 		$item = $this->backtrace[6];
@@ -114,7 +114,7 @@ class ETPlugin_Debug extends ETPlugin {
 	function handler_pageEnd($sender)
 	{
 		// Don't proceed if the user is not permitted to see the debug information!
-		if (!ET::$session->isAdmin()) return;
+		//if (!ET::$session->isAdmin()) return;
 
 		// Stop the page loading timer.
 		$end = microtime(true);

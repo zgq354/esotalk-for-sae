@@ -75,7 +75,7 @@ public function getUploadedFile($key, $allowedTypes = array())
 public function saveAs($source, $destination)
 {
 	// Attempt to move the uploaded file to the destination. If we can't, throw an exception.
-	if (!move_uploaded_file($source, $destination))
+	if (!move_uploaded_file($source, PATH_SAESTOR.'/'.$destination))
 		throw new Exception(sprintf(T("message.fileUploadFailedMove"), $destination));
 
 	return $destination;
@@ -175,19 +175,26 @@ public function saveAsImage($source, $destination, $width, $height, $sizeMode = 
 	imagecopyresampled($newImage, $image, -$x, -$y, 0, 0, $newWidth, $newHeight, $sourceWidth, $sourceHeight);
 
 	// Save the image to the correct destination and format.
+	$s = new SaeStorage();
+	ob_start();
 	switch ($outputType) {
 		case "png":
-			imagepng($newImage, $outputFile = "$destination.png");
+			imagepng($newImage);
+			$outputFile = "$destination.png";
 			break;
 
 		case "gif":
-			imagegif($newImage, $outputFile = "$destination.gif");
+			imagegif($newImage);
+			 $outputFile = "$destination.gif";
 			break;
 
 		default:
-			imagejpeg($newImage, $outputFile = "$destination.jpg");
+			imagejpeg($newImage);
+			$outputFile = "$destination.jpg";
 	}
-
+	$imgstr = ob_get_contents();
+	$s->write(SAESTOR_DOMAIN,$outputFile,$imgstr);
+	ob_end_clean();
 	// Clean up.
 	imagedestroy($newImage);
 	imagedestroy($image);

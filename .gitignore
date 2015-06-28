@@ -5,7 +5,6 @@
 sitemap*
 cache/*
 uploads/*
-robots.txt
 
 # Compiled source
 *.com

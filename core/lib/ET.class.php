@@ -106,6 +106,12 @@ public static $cache;
 
 
 /**
+*
+* Cache the language filename
+*/
+private static $language_filename = array();
+
+/**
  * Shortcut function to fetch a new ETSQLQuery object (or an ETSQLResult object if a query string is passed.)
  *
  * @param string $sql An optional SQL query string to run.
@@ -176,11 +182,11 @@ public static function first($event, $parameters = array())
  */
 public static function checkForUpdates()
 {
-	$json = @file_get_contents("http://esotalk.org/versions.json");
-	$packages = json_decode($json, true);
+	//$json = @file_get_contents("http://esotalk.org/versions.json");
+	//$packages = json_decode($json, true);
 
 	// Compare the installed version and the latest version. Show a message if there is a new version.
-	if (isset($packages["esoTalk"]) and version_compare($packages["esoTalk"]["version"], ESOTALK_VERSION, ">") == -1) return $packages["esoTalk"];
+	//if (isset($packages["esoTalk"]) and version_compare($packages["esoTalk"]["version"], ESOTALK_VERSION, ">") == -1) return $packages["esoTalk"];
 
 	return false;
 }
@@ -203,8 +209,8 @@ public static $config = array();
  */
 public static function loadConfig($file)
 {
-	include $file;
-	ET::$config = array_merge(ET::$config, $config);
+	@include $file;
+	if ($config) ET::$config = array_merge(ET::$config, $config);
 }
 
 
@@ -286,6 +292,13 @@ private static $_definitions = array();
  */
 public static function loadLanguage($language = "")
 {
+	if(isset(ET::$languageInfo[$language])) return;
+	$narr = ET::$cache->filenames;
+	if($narr !== false && isset($narr["language_filename"]))
+		self::$language_filename = $narr["language_filename"];
+	//while $narr is empty create an new array
+	if(empty($narr)) $narr = array();
+
 	// Clear the currently loaded definitions.
 	self::$definitions = array();
 
@@ -301,9 +314,23 @@ public static function loadLanguage($language = "")
 
 	// Loop through the loaded plugins and include their definition files, if they exist.
 	foreach (C("esoTalk.enabledPlugins") as $plugin) {
-		if (file_exists($file = "$languagePath/definitions.".sanitizeFileName($plugin).".php"))
+		if(empty(self::$language_filename) || self::$language_filename[$plugin] == false){
+			if (file_exists($file = "$languagePath/definitions.".sanitizeFileName($plugin).".php")){
+				self::loadDefinitions($file);
+				self::$language_filename[$plugin] = $file;
+				$narr["language_filename"] = self::$language_filename;
+				//ET::$cache->store("language_filename" , self::$language_filename);
+				//ET::$cache->store(ET::$cache->fname_key , $narr);
+				ET::$cache->filenames = $narr;
+				ET::$cache->fnamechanged = true;
+			}
+		}else{
+			$file = self::$language_filename[$plugin] ;
 			self::loadDefinitions($file);
+		}
 	}
+	//var_dump($narr);//exit();
+	unset($narr);
 
 	// Re-define runtime definitions.
 	foreach (self::$runtimeDefinitions as $k => $v)

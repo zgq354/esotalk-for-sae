@@ -22,7 +22,6 @@ if (!defined("IN_ESOTALK")) exit;
  * @package esoTalk
  */
 
-
 //***** 1. SET UP ENVIRONMENT
 
 // By default, only display important errors (no warnings or notices.)
@@ -75,12 +74,12 @@ if (get_magic_quotes_gpc()) {
 
 // Include our config files.
 ET::loadConfig(PATH_CORE."/config.defaults.php");
-
 // If the config path is different from the default, but there's still a config file at the default location, include it.
-if (PATH_CONFIG != PATH_ROOT."/config" and file_exists($file = PATH_ROOT."/config/config.php")) ET::loadConfig($file);
+if (PATH_CONFIG != PATH_ROOT."/config" and is_file($file = PATH_ROOT."/config/config.php")) ET::loadConfig($file);
 
 // Include the real config file.
-if (file_exists($file = PATH_CONFIG."/config.php")) ET::loadConfig($file);
+//if (file_exists($file = PATH_CONFIG."/config.php")) ET::loadConfig($file);
+ET::loadConfig(PATH_CONFIG."/config.php");
 
 // In debug mode, show all errors (except for strict standards).
 if (C("esoTalk.debug")) error_reporting(E_ALL & ~E_STRICT);
@@ -92,7 +91,7 @@ if (C("esoTalk.https") and (!array_key_exists("HTTPS", $_SERVER) or $_SERVER["HT
 }
 
 // Load the forum's default language. We will load the user's preferred language later on.
-ET::loadLanguage(C("esoTalk.language"));
+//ET::loadLanguage(C("esoTalk.language"));
 
 
 
@@ -164,28 +163,58 @@ else {
 		ETFactory::registerAdminController("unapproved", "ETUnapprovedAdminController", PATH_CONTROLLERS."/admin/ETUnapprovedAdminController.class.php");
 }
 
+// Initialize the cache.
+$cacheClass = C("esoTalk.cache");
+ET::$cache = ETFactory::make($cacheClass ? $cacheClass : "cache");
+
+// Load the forum's default language. We will load the user's preferred language later on.
+ET::loadLanguage(C("esoTalk.language"));
 
 //***** 5. SET UP PLUGINS
 
 if (C("esoTalk.installed")) {
 
+	//Set up the plugin file names array to load the plugin quickly without the function named file_exists
+	$plugin_filenames = array();
+
+	$narr = ET::$cache->filenames;
+	if($narr !== false && isset($narr["plugin_filenames"]))
+		$plugin_filenames = $narr["plugin_filenames"];
+	//while $narr is empty create an new array
+	if(empty($narr)) $narr = array();
 	foreach (C("esoTalk.enabledPlugins") as $v) {
-		if (file_exists($file = PATH_PLUGINS."/".sanitizeFileName($v)."/plugin.php")) include_once $file;
+		$_name = sanitizeFileName($v);
+		if(empty($plugin_filenames) || $plugin_filenames[$_name] == false){
+		
+			if (file_exists($file = PATH_PLUGINS."/".sanitizeFileName($v)."/plugin.php")) {
+				$plugin_filenames[$_name] = $file;
+				$narr["plugin_filenames"] = $plugin_filenames;
+				//Refrech the cache of filenames 
+				ET::$cache->filenames = $narr;
+				ET::$cache->fnamechanged = true;
+				include_once $file;
+			}
+
+		}else{
+			include_once $plugin_filenames[$_name];
+		}
 		$className = "ETPlugin_$v";
 		if (!class_exists($className)) continue;
 		ET::$plugins[$v] = new $className("addons/plugins/".$v);
 		ET::$plugins[$v]->boot();
 	}
+	unset($plugin_filenames);
+	unset($narr);
 
 }
 
 
 
-//***** 6. INITIALIZE SESSION AND DATABASE, AND CACHE
+//***** 6. INITIALIZE SESSION AND DATABASE//, AND CACHE
 
 // Initialize the cache.
-$cacheClass = C("esoTalk.cache");
-ET::$cache = ETFactory::make($cacheClass ? $cacheClass : "cache");
+//$cacheClass = C("esoTalk.cache");
+//ET::$cache = ETFactory::make($cacheClass ? $cacheClass : "cache");
 
 // Connect to the database.
 ET::$database = ETFactory::make("database");
@@ -257,7 +286,7 @@ if (C("esoTalk.installed")) {
 
 	// Include the skin file and instantiate its class.
 	ET::$skinName = $skinName;
-	if (file_exists($file = PATH_SKINS."/$skinName/skin.php")) include_once $file;
+	if (is_file($file = PATH_SKINS."/$skinName/skin.php")) include_once $file;
 	$skinClass = "ETSkin_".$skinName;
 	if (class_exists($skinClass)) ET::$skin = new $skinClass("addons/skins/".$skinName);
 	
@@ -274,7 +303,7 @@ array_unshift(ET::$plugins, ET::$skin);
 //***** 9. SET UP LANGUAGE
 
 // If the user's preferred language differs from the forum's default, then load it now.
-if (C("esoTalk.language") != ET::$session->preference("language"))
+if (($_lang = ET::$session->preference("language")) && C("esoTalk.language") != $_lang)
 	ET::loadLanguage(ET::$session->preference("language"));
 
 
@@ -291,6 +320,8 @@ if ($requestParts[0] == "admin") {
 // Otherwise, use normal public controllers.
 else {
 	$controllers = ETFactory::$controllers;
+    
+	if($requestParts[0] == 't') $requestParts[0] = 'conversation';
 
 	// If the first character of the URL parameter is numeric, assume the conversation controller.
 	if ($requestParts[0] and is_numeric($requestParts[0][0])) array_unshift($requestParts, "conversation");
@@ -311,7 +342,7 @@ ET::$controller->responseType = $responseType;
 foreach (ET::$plugins as $plugin) $plugin->init();
 
 // Include the config/custom.php file, a convenient way to override things.
-if (file_exists($file = PATH_CONFIG."/custom.php")) include $file;
+//if (file_exists($file = PATH_CONFIG."/custom.php")) include $file;
 
 // Include render functions. We do this after we initialize plugins so that they can override any functions if they want.
 require PATH_LIBRARY."/functions.render.php";
@@ -327,6 +358,8 @@ ET::$controller->dispatch(ET::$controller->controllerMethod, $arguments);
 
 ob_end_flush();
 
+//update the filename cache
+if (ET::$cache->fnamechanged) ET::$cache->store(ET::$cache->fname_key , ET::$cache->filenames);
 
 
 //***** 12. CLEANUP

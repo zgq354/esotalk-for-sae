@@ -54,7 +54,7 @@ if (!function_exists("conversationURL")) {
  */
 function conversationURL($conversationId, $title = "")
 {
-	return $conversationId.(($title = slug($title)) ? "-$title" : "");
+    return 't/'.$conversationId;
 }
 
 }
@@ -174,12 +174,15 @@ function avatar($member = array(), $className = "")
 	// Construct the avatar path from the provided information.
 	if (!empty($member["memberId"]) and !empty($member["avatarFormat"])) {
 		$file = "uploads/avatars/{$member["memberId"]}.{$member["avatarFormat"]}";
-		$url = getWebPath($file);
+		//$url = getWebPath($file);
+		//in SAE
+		$s = new SaeStorage();
+		$url = $s->getUrl(SAESTOR_DOMAIN,$file);
 		return "<img src='$url' alt='' class='avatar $className'/>";
 	}
 
 	// Default to an avatar with the first letter of the member's name.
-	return "<span class='avatar $className'>".(!empty($member["username"]) ? strtoupper($member["username"][0]) : "&nbsp;")."</span>";
+	return "<span class='avatar $className'>".(!empty($member["username"]) ? strtoupper(mb_substr($member["username"],0,1,'utf-8')) : "&nbsp;")."</span>";
 }
 
 }

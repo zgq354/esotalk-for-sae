@@ -6,10 +6,10 @@ here if necessary.
 */
 
 /* Global */
-body {font-size:14px; font-weight:300; margin:0; overflow-y:scroll; background:#fff; color:#666}
-body, input, textarea, select {font-family:open sans,lucida grande,lucida sans unicode,helvetica,arial,sans-serif}
+body {font-size:14px; font-weight:400; margin:0; overflow-y:scroll; background:#fff; color:#666}
+body, input, textarea, select {font-family:open sans,"Microsoft YaHei", "STHeiti",lucida grande,lucida sans unicode,helvetica,arial,sans-serif}
 input, textarea, select {font-size:100%}
-strong {font-weight:600}
+strong {font-weight:400}
 
 
 /* Links */
@@ -22,35 +22,35 @@ small {font-size:85%}
 
 
 /* Block styles */
-h1 {font-size:150%; font-weight:300}
-h2 {font-size:160%; font-weight:300}
-h3 {font-size:115%; font-weight:600}
-h4 {font-weight:600}
+h1 {font-size:150%; font-weight:400}
+h2 {font-size:160%; font-weight:400}
+h3 {font-size:115%; font-weight:400}
+h4 {font-weight:400}
 p, ul, pre {line-height:1.6em}
 .bodyHeader h1 {line-height:1.5em}
 
 
 /* Sheets */
-.sheet h3 {font-weight:300}
+.sheet h3 {font-weight:400}
 .sheet, .area {background:#fff}
 
 
 /* Conversation list: adjust the typography. */
-.conversationList .title {font-weight:300; font-size:16px}
-.conversationList .unread .title a {font-weight:600}
-.conversationList .action * {font-weight:300}
+.conversationList .title {font-weight:400; font-size:16px}
+.conversationList .unread .title a {font-weight:400}
+.conversationList .action * {font-weight:400}
 
 
 /* Channel list */
-.channelList .channel {font-weight:600}
+.channelList .channel {font-weight:400}
 
 
 /* Posts */
-.postHeader h3 {font-size:120%; font-weight:600}
-.postBody h4 {font-weight:300}
-.replyPlaceholder .postHeader h3 {font-weight:300}
+.postHeader h3 {font-size:120%; font-weight:400}
+.postBody h4 {font-weight:400}
+.replyPlaceholder .postHeader h3 {font-weight:400}
 .postBody {line-height:1.75em; font-size:16px}
-.postBody a {font-weight:600}
+.postBody a {font-weight:400}
 
 
 /* Tabs */
@@ -58,10 +58,10 @@ p, ul, pre {line-height:1.6em}
 
 
 /* Miscellaneous */
-.permissionsGrid .group th {font-weight:300}
-.action .name, .action a, .action strong {font-weight:600}
+.permissionsGrid .group th {font-weight:400}
+.action .name, .action a, .action strong {font-weight:400}
 .avatar {border-radius:32px}
-.scrubber li.selected > a {font-weight:600}
+.scrubber li.selected > a {font-weight:400}
 
 
 /* Layout */
@@ -77,16 +77,16 @@ p, ul, pre {line-height:1.6em}
 
 
 /* Header */
-#hdr {background:#fff; position:fixed; width:100%; z-index:100; border-bottom:1px solid}
+#hdr {background:#fff; position:fixed; width:100%; z-index:100; top: 0;border-bottom:1px solid}
 #hdr-inner {padding-right:580px; white-space:nowrap}
-#hdr h1 {display:inline-block; max-width:100%; font-size:20px; padding:14px 0; margin:0; font-weight:300; overflow:hidden; white-space:nowrap; text-overflow:ellipsis}
+#hdr h1 {display:inline-block; max-width:100%; font-size:20px; padding:14px 0; margin:0; font-weight:400; overflow:hidden; white-space:nowrap; text-overflow:ellipsis}
 #hdr h1 img {display:inline; vertical-align:-5px; margin-right:5px; border:0}
 #hdr h1 span {margin-left:10px}
 #backButton {float:left; margin-right:10px; margin-left:-30px; font-size:20px; line-height:20px; margin-top:17px; text-decoration:none}
 
 #mainMenu {margin-left:30px; display:inline; padding:18px 0}
 #userMenu {float:right; padding:18px 0; margin-right:-580px; margin-left:-18px;}
-#userMenu .item-user {font-weight:600}
+#userMenu .item-user {font-weight:400}
 #userMenu .item-user .avatar {vertical-align:middle; margin:-5px 8px -5px 0}
 #userMenu.menu > li {margin-left:18px; text-align:left}
 
@@ -103,12 +103,12 @@ p, ul, pre {line-height:1.6em}
 
 
 /* Text inputs */
-input[type=text], input[type=password], input[type=number], input[type=email], textarea, .input {font-weight:300; background:#fff; border:1px solid; padding:5px; border-radius:3px; vertical-align:-1px; margin:0; -webkit-appearance:none}
+input[type=text], input[type=password], input[type=number], input[type=email], textarea, .input {font-weight:400; background:#fff; border:1px solid; padding:5px; border-radius:3px; vertical-align:-1px; margin:0; -webkit-appearance:none}
 input[type=text]:focus, input[type=password]:focus, textarea:focus, input[type=number]:focus, input[type=email]:focus, .input:focus {outline:0}
 
 
 /* Buttons */
-.button {background:#f6f6f6; font-weight:600; border:1px solid transparent; margin-bottom:1px; white-space:nowrap; height:30px; font-size:90%; padding:0 10px 2px; line-height:30px; -webkit-appearance:none}
+.button {background:#f6f6f6; font-weight:400; border:1px solid transparent; margin-bottom:1px; white-space:nowrap; height:30px; font-size:90%; padding:0 10px 2px; line-height:30px; -webkit-appearance:none}
 .button.big {height:34px; font-size:90%; padding:0 10px 0; line-height:28px}
 .button:hover, .button:active {border-color:#ddd}
 .button:active {background-color:#ddd}
@@ -121,3 +121,17 @@ a.button.big {padding:10px; height:auto; line-height:1em}
 .button.submit:hover {border-color:#000; color:#fff}
 
 .buttonGroup .button {margin-right:-3px}
+
+/* Description */
+.item-description{
+	font-size: 14px;
+	color: #888888;
+	margin:0; display:inline;
+	float: left !important;
+	padding-top: 11px;
+	top: 12px;
+	position: absolute !important;
+	margin-left: -10px;
+	overflow: hidden;
+	
+}

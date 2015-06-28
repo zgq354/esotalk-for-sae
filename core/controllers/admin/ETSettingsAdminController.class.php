@@ -109,10 +109,10 @@ protected function uploadHeaderImage($form)
 		// Save it as an image, restricting it to a maximum size.
 		$logo = $uploader->saveAsImage($file, PATH_UPLOADS."/logo", 500, 40, "max");
 		$logo = str_replace(PATH_UPLOADS, "uploads", $logo);
-
+		$s = new SaeStorage();
 		// Delete the old logo (if we didn't just overwrite it.)
-		if ($logo != C("esoTalk.forumLogo")) @unlink(C("esoTalk.forumLogo"));
-
+		//if ($logo != C("esoTalk.forumLogo")) @unlink(C("esoTalk.forumLogo"));
+		$logo = $s->getUrl(SAESTOR_DOMAIN, $logo);
 		return $logo;
 
 	} catch (Exception $e) {

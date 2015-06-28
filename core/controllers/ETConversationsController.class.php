@@ -204,16 +204,19 @@ public function action_index($channelSlug = false)
 		foreach ($channelInfo as $id => $c) $channels[$id] = $c["slug"];
 		$this->addJSVar("channels", $channels);
 
-		// Get a bunch of statistics...
-		$queries = array(
-			"post" => ET::SQL()->select("COUNT(*)")->from("post")->get(),
-			"conversation" => ET::SQL()->select("COUNT(*)")->from("conversation")->get(),
-			"member" => ET::SQL()->select("COUNT(*)")->from("member")->get()
-		);
-		$sql = ET::SQL();
-		foreach ($queries as $k => $query) $sql->select("($query) AS $k");
-		$stats = $sql->exec()->firstRow();
-
+		// Get a bunch of statistics...从缓存中提取
+		if(($stats = ET::$cache->get("stats")) === false)
+		{
+			$queries = array(
+				"post" => ET::SQL()->select("COUNT(*)")->from("post")->get(),
+				"conversation" => ET::SQL()->select("COUNT(*)")->from("conversation")->get(),
+				"member" => ET::SQL()->select("COUNT(*)")->from("member")->get()
+			);
+			$sql = ET::SQL();
+			foreach ($queries as $k => $query) $sql->select("($query) AS $k");
+			$stats = $sql->exec()->firstRow();
+			ET::$cache->store("stats",$stats,600);
+		}
 		// ...and show them in the footer.
 		foreach ($stats as $k => $v) {
 			$stat = Ts("statistic.$k", "statistic.$k.plural", number_format($v));

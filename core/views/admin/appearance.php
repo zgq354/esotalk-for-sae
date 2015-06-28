@@ -69,3 +69,7 @@ else: ?>
 
 </div>
 <?php endif; ?>
+<div class="area">
+  <h3>更新css和js文件缓存(慎用)</h3>
+  <a href="<?php echo URL("admin/appearance/clearcache?token=".ET::$session->token); ?>" class="small button">清除缓存</a>
+</div>

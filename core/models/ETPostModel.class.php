@@ -167,17 +167,24 @@ public function getSearchResultsCount($conversationId, $search)
  * @param ETSQLQuery $sql The SQL query to add the predicate to.
  * @param string $search The search string.
  * @return void
- */
+*/
+
 private function whereSearch(&$sql, $search)
 {
-	$sql->where("MATCH (content) AGAINST (:search IN BOOLEAN MODE)")
-		->where("deleteMemberId IS NULL")
-		->bind(":search", $search);
+	if(preg_match('/[\x80-\xff]/i',$search))
+	{
+		$sql->where("content LIKE :search");
+	}
+	else
+	{
+		$sql->where("MATCH (content) AGAINST (:search IN BOOLEAN MODE)")
+		->where("MATCH (title) AGAINST (:search IN BOOLEAN MODE)");
+	}
+	$sql->where("deleteMemberId IS NULL")
+		->bind(":search", "%".$search."%");
 
 	$this->trigger("whereSearch", array($sql, $search));
 }
-
-
 /**
  * Create a post in the specified conversation.
  *
@@ -263,6 +270,13 @@ public function create($conversationId, $memberId, $content, $title = "")
 
 	}
 
+    //更新缓存
+    $am = ET::activityModel();
+    ET::$cache->store($am::CACHE_KEY.'_'.$memberId.'_'.$am::CACHE_NS_KEY,time());
+    $sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
+
+
 	return $id;
 }
 
@@ -297,6 +311,14 @@ public function editPost(&$post, $content)
 
 	$this->trigger("editPostAfter", array($post));
 
+
+    //更新缓存
+    $am = ET::activityModel();
+    ET::$cache->store($am::CACHE_KEY.'_'.$post['memberId'].'_'.$am::CACHE_NS_KEY,time());
+    $sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
+
+
 	return true;
 }
 
@@ -321,6 +343,12 @@ public function deletePost(&$post)
 	$post["deleteMemberName"] = ET::$session->user["username"];
 	$post["deleteTime"] = $time;
 
+    //更新缓存
+    $am = ET::activityModel();
+    ET::$cache->store($am::CACHE_KEY.'_'.$post['memberId'].'_'.$am::CACHE_NS_KEY,time());
+    $sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
+
 	return true;
 }
 
@@ -344,6 +372,12 @@ public function restorePost(&$post)
 	$post["deleteMemberName"] = null;
 	$post["deleteTime"] = null;
 
+    //更新缓存
+    $am = ET::activityModel();
+    ET::$cache->store($am::CACHE_KEY.'_'.$post['memberId'].'_'.$am::CACHE_NS_KEY,time());
+    $sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
+
 	return true;
 }
 
@@ -359,7 +393,7 @@ public function validateContent($content)
 	$content = trim($content);
 
 	// Make sure it's not too long but has at least one character.
-	if (strlen($content) > C("esoTalk.conversation.maxCharsPerPost")) return sprintf(T("message.postTooLong"), C("esoTalk.conversation.maxCharsPerPost"));
+	if (mb_strlen($content) > C("esoTalk.conversation.maxCharsPerPost")) return sprintf(T("message.postTooLong"), C("esoTalk.conversation.maxCharsPerPost"));
 	if (!strlen($content)) return "emptyPost";
 }
 

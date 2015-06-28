@@ -16,6 +16,7 @@ if (!defined("IN_ESOTALK")) exit;
 <meta charset='<?php echo T("charset", "utf-8"); ?>'>
 <title><?php echo sanitizeHTML($data["pageTitle"]); ?></title>
 <?php echo $data["head"]; ?>
+<link href="<?php echo getResource("core/skin/favicon.ico");?>" type="image/x-icon" rel="shortcut icon">
 <script>
 // Turn off JS effects and fixed positions, and disable tooltips.
 jQuery.fx.off = true;
@@ -52,8 +53,8 @@ $(function() {
 <a href='<?php echo $data["backButton"]["url"]; ?>' id='backButton' title='<?php echo T("Back to {$data["backButton"]["type"]}"); ?>'><i class="icon-chevron-left"></i></a>
 <?php endif; ?>
 
-<ul id='userMenu' class='menu'>
-<li><a href='<?php echo URL("conversation/start"); ?>' class='link-newConversation'>New conversation</a></li>
+<ul id='userMenu' class='menu' style='display:none;'>
+<li><a href='<?php echo URL("conversation/start"); ?>' class='link-newConversation'><?php echo T("New Conversation"); ?></a></li>
 <li class='sep'></li>
 <?php echo $data["userMenuItems"]; ?>
 </ul>

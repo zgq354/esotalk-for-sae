@@ -16,7 +16,7 @@ ET::$skinInfo["Default"] = array(
 	"version" => ESOTALK_VERSION,
 	"author" => "esoTalk Team",
 	"authorEmail" => "support@esotalk.org",
-	"authorURL" => "http://esotalk.org",
+	"authorURL" => "http://esotalk.rkidc.net",
 	"license" => "GPLv2"
 );
 
@@ -31,7 +31,7 @@ class ETSkin_Default extends ETSkin {
  */
 public function handler_init($sender)
 {
-	$sender->addCSSFile((C("esoTalk.https") ? "https" : "http")."://fonts.googleapis.com/css?family=Open+Sans:400,600");
+	$sender->addCSSFile((C("esoTalk.https") ? "https" : "http")."://fonts.useso.com/css?family=Open+Sans:400,600");
 	$sender->addCSSFile("core/skin/base.css", true);
 	$sender->addCSSFile("core/skin/font-awesome.css", true);
 	$sender->addCSSFile($this->resource("styles.css"), true);
@@ -40,10 +40,10 @@ public function handler_init($sender)
 	if ($isMobile = isMobileBrowser()) {
 		$sender->addCSSFile($this->resource("mobile.css"), true);
 		$sender->masterView = "mobile.master";
-		$sender->addToHead("<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>");
+		$sender->addToHead("<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>");
 	}
 
-	$sender->addCSSFile("config/colors.css", true);
+	$sender->addCSSFile(C("esoTalk.aggregateCSS")?PATH_CONFIG."/colors.css":"config/colors.css", true);
 
 	if (!C("skin.Default.primaryColor")) $this->writeColors("#364159");
 }

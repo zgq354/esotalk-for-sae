@@ -26,6 +26,10 @@ class ETActivityModel extends ETModel {
 const PROJECTION_ACTIVITY = "activity";
 const PROJECTION_NOTIFICATION = "notification";
 const PROJECTION_EMAIL = "email";
+const CACHE_KEY = "activity";
+const CACHE_NS_KEY = "ns";
+const CACHE_NT_NS_KEY = "nt";
+const CACHE_NT_KEY = "activity_nt";
 
 
 /**
@@ -149,7 +153,9 @@ public function create($type, $member, $fromMember = null, $data = null, $emailD
 		ET::revertLanguageState();
 
 	}
-
+	ET::$cache->store(self::CACHE_KEY.'_'.$member["memberId"].'_'.self::CACHE_NS_KEY,time());
+	//更新缓存
+	ET::$cache->store(self::CACHE_NT_KEY.'_'.$member["memberId"].'_'.self::CACHE_NT_NS_KEY,time());
 	return $activity["activityId"];
 }
 
@@ -192,63 +198,77 @@ public function endNotificationGroup()
  */
 public function getActivity($member, $offset = 0, $limit = 11)
 {
+	$ns_key = ET::$cache->get(self::CACHE_KEY.'_'.$member["memberId"].'_'.self::CACHE_NS_KEY);
+	$my_key = self::CACHE_KEY.'_'.$ns_key.'_'.$member["memberId"].'_'.$offset.'_'.$limit; 
+	if($ns_key)
+	{
+		$activity = ET::$cache->get($my_key);
+        //当返回数组没有元素时也会当作false判断，所以要判断值和类型
+		if($activity !== false) return $activity;
+	}
+	else
+	{
+		$ns_key = time();
+		$my_key = self::CACHE_KEY.'_'.$ns_key.'_'.$member["memberId"].'_'.$offset.'_'.$limit; 
+		ET::$cache->store(self::CACHE_KEY.'_'.$member["memberId"].'_'.self::CACHE_NS_KEY,$ns_key);
+	}
 	// Construct a query that will get all the activity data from the activity table.
 	$activity = ET::SQL()
-		->select("activityId")
-		->select("IF(fromMemberId IS NOT NULL,fromMemberId,a.memberId)", "fromMemberId")
-		->select("m.username", "fromMemberName")
-		->select("email")
-		->select("avatarFormat")
-		->select("type")
-		->select("data")
-		->select("NULL", "postId")
-		->select("NULL", "title")
-		->select("NULL", "content")
-		->select("NULL", "start")
-		->select("time")
-		->from("activity a")
-		->from("member m", "m.memberId=IF(fromMemberId IS NOT NULL,fromMemberId,a.memberId)", "left")
-		->where("a.memberId=:memberId")
-		->bind(":memberId", $member["memberId"])
-		->where("a.type IN (:types)")
-		->bind(":types", $this->getTypesWithProjection(self::PROJECTION_ACTIVITY))
-		->orderBy("time DESC")
-		->limit($offset + $limit);
+	->select("activityId")
+	->select("IF(fromMemberId IS NOT NULL,fromMemberId,a.memberId)", "fromMemberId")
+	->select("m.username", "fromMemberName")
+	->select("email")
+	->select("avatarFormat")
+	->select("type")
+	->select("data")
+	->select("NULL", "postId")
+	->select("NULL", "title")
+	->select("NULL", "content")
+	->select("NULL", "start")
+	->select("time")
+	->from("activity a")
+	->from("member m", "m.memberId=IF(fromMemberId IS NOT NULL,fromMemberId,a.memberId)", "left")
+	->where("a.memberId=:memberId")
+	->bind(":memberId", $member["memberId"])
+	->where("a.type IN (:types)")
+	->bind(":types", $this->getTypesWithProjection(self::PROJECTION_ACTIVITY))
+	->orderBy("time DESC")
+	->limit($offset + $limit);
 
 	// Construct a query that will get all of the user's most recent posts.
 	// All of the posts will be handled through the "post" activity type.
 	$posts = ET::SQL()
-		->select("NULL", "activityId")
-		->select($member["memberId"], "fromMemberId")
-		->select(ET::$database->escapeValue($member["username"]), "fromMemberName")
-		->select(ET::$database->escapeValue($member["email"]), "email")
-		->select(ET::$database->escapeValue($member["avatarFormat"]), "avatarFormat")
-		->select("'postActivity'", "type")
-		->select("NULL", "data")
-		->select("postId")
-		->select("c.title", "title")
-		->select("content")
-		->select("c.startMemberId=p.memberId AND c.startTime=p.time", "start")
-		->select("time")
-		->from("post p")
-		->from("conversation c", "c.conversationId=p.conversationId", "left")
-		->where("memberId=:memberId")
-		->where("p.deleteTime IS NULL")
-		->bind(":memberId", $member["memberId"])
-		->where("c.countPosts>0")
-		->where("c.private=0")
-		->orderBy("time DESC")
-		->limit($offset + $limit);
+	->select("NULL", "activityId")
+	->select($member["memberId"], "fromMemberId")
+	->select(ET::$database->escapeValue($member["username"]), "fromMemberName")
+	->select(ET::$database->escapeValue($member["email"]), "email")
+	->select(ET::$database->escapeValue($member["avatarFormat"]), "avatarFormat")
+	->select("'postActivity'", "type")
+	->select("NULL", "data")
+	->select("postId")
+	->select("c.title", "title")
+	->select("content")
+	->select("c.startMemberId=p.memberId AND c.startTime=p.time", "start")
+	->select("time")
+	->from("post p")
+	->from("conversation c", "c.conversationId=p.conversationId", "left")
+	->where("memberId=:memberId")
+	->where("p.deleteTime IS NULL")
+	->bind(":memberId", $member["memberId"])
+	->where("c.countPosts>0")
+	->where("c.private=0")
+	->orderBy("time DESC")
+	->limit($offset + $limit);
 	ET::channelModel()->addPermissionPredicate($posts);
 
 	// Marry these two queries so we get their activity AND their posts in one resultset.
 	$result = ET::SQL()
-		->union($activity)
-		->union($posts)
-		->orderBy("time DESC")
-		->limit($limit)
-		->offset($offset)
-		->exec();
+	->union($activity)
+	->union($posts)
+	->orderBy("time DESC")
+	->limit($limit)
+	->offset($offset)
+	->exec();
 
 	// Now expand the resultset into a proper array of activity items by running activity type/projection
 	// callback functions.
@@ -266,7 +286,7 @@ public function getActivity($member, $offset = 0, $limit = 11)
 
 		$activity[] = $item;
 	}
-
+	ET::$cache->store($my_key,$activity);
 	return $activity;
 }
 
@@ -282,7 +302,20 @@ public function getActivity($member, $offset = 0, $limit = 11)
 public function getNotifications($limit = 5)
 {
 	if (!ET::$session->user) return null;
-
+	$ns_key = ET::$cache->get(self::CACHE_NT_KEY.'_'.ET::$session->userId.'_'.self::CACHE_NT_NS_KEY);
+	$my_key = self::CACHE_NT_KEY.'_'.$ns_key.'_'.ET::$session->userId.'_'.$limit; 
+	if($ns_key)
+	{
+		$notifications = ET::$cache->get($my_key);
+        //当返回数组没有元素时也会当作false判断，所以要判断值和类型
+		if($notifications !== false) return $notifications;
+	}
+	else
+	{
+		$ns_key = time();
+		$my_key = self::CACHE_NT_KEY.'_'.$ns_key.'_'.ET::$session->userId.'_'.$limit; 
+		ET::$cache->store(self::CACHE_NT_KEY.'_'.ET::$session->userId.'_'.self::CACHE_NT_NS_KEY,$ns_key);
+	}
 	$result = ET::SQL()
 		->select("a.fromMemberId")
 		->select("m.username", "fromMemberName")
@@ -331,6 +364,8 @@ public function getNotifications($limit = 5)
 
 		$notifications[] = $item;
 	}
+	//将通知缓存起来
+	ET::$cache->store($my_key,$notifications);
 
 	return $notifications;
 }
@@ -356,6 +391,8 @@ public function markNotificationsAsRead($type = null, $conversationId = null)
 	}
 
 	$query->exec();
+	ET::$cache->store(self::CACHE_NT_KEY.'_'.ET::$session->userId.'_'.self::CACHE_NT_NS_KEY,time());
+
 }
 
 

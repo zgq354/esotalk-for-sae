@@ -85,8 +85,25 @@ public function action_activate($skin = "")
 	ET::writeConfig(array("esoTalk.skin" => $skin));
 
 	// Clear skin cache.
-	$files = glob(PATH_CACHE.'/css/*.*');
-	foreach ($files as $file) unlink(realpath($file));
+	//$files = glob(PATH_CACHE.'/css/*.*');
+	//foreach ($files as $file) unlink(realpath($file));
+	clear_skincache('cache/css');
+	
+	$this->redirect(URL("admin/appearance"));
+}
+
+
+/**
+ * Clear the skin cache(js&css).
+ *
+ * @return void
+ */
+public function action_clearcache()
+{
+	if (!$this->validateToken()) return;
+
+	// Clear skin cache.
+	clear_skincache('cache');
 
 	$this->redirect(URL("admin/appearance"));
 }
@@ -110,9 +127,10 @@ public function action_activateMobile($skin = "")
 	ET::writeConfig(array("esoTalk.mobileSkin" => $skin));
 
 	// Clear skin cache.
-	$files = glob(PATH_CACHE.'/css/*.*');
-	foreach ($files as $file) unlink(realpath($file));
-
+	//$files = glob(PATH_CACHE.'/css/*.*');
+	//foreach ($files as $file) unlink(realpath($file));
+	clear_skincache('cache/css');
+	
 	$this->redirect(URL("admin/appearance"));
 }
 

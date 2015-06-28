@@ -397,6 +397,7 @@ function isMobileBrowser()
 }
 
 
+
 /**
  * Create a slug for use in URLs from a given string. Any non-alphanumeric characters will be converted to "-".
  *
@@ -412,7 +413,6 @@ function slug($string)
 	
 		// Thanks to krakos for this code! http://esotalk.org/forum/582-unicode-in-usernames-and-url-s
 		if (function_exists('transliterator_transliterate')) {
-
 			// Unicode decomposition rules states that these cannot be decomposed, hence
 			// we have to deal with them manually. Note: even though “scharfes s” is commonly
 			// transliterated as “sz”, in this context “ss” is preferred, as it's the most popular 
@@ -420,47 +420,23 @@ function slug($string)
 			$src = array('œ', 'æ', 'đ', 'ø', 'ł', 'ß', 'Œ', 'Æ', 'Đ', 'Ø', 'Ł');
 			$dst = array('oe','ae','d', 'o', 'l', 'ss', 'OE', 'AE', 'D', 'O', 'L');
 			$string = str_replace($src, $dst, $string);
-
 			// Using transliterator to get rid of accents and convert non-Latin to Latin
 			$string = transliterator_transliterate("Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC; [:Punctuation:] Remove; Lower();", $string);
-
 		} 
-		elseif (function_exists('iconv')) {
-
-			// IConv won't deal nicely with the following, hence we have to deal with them
-			// manually. Note: even though “scharfes s” is commonly transliterated as “sz”,
-			// in this context “ss” is preferred, as it's the most popular method among German
-			// speakers.
-			$src = array('đ', 'ø', 'ß',  'Đ', 'Ø');
-			$dst = array('d', 'o', 'ss', 'D', 'O');
-			$string = str_replace($src, $dst, $string);
-
-			// Using IConv to get rid of accents. Non-Latin letters are unaffected
-			$string = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
-
-		}
 		else {
-
 			// A fallback to old method.
 			// Convert special Latin letters and other characters to HTML entities.
 			$string = htmlentities($string, ENT_NOQUOTES, "UTF-8");
-
 			// With those HTML entities, either convert them back to a normal letter, or remove them.
 			$string = preg_replace(array("/&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml|caron);/i", "/&[^;]{2,6};/"), array("$1", " "), $string);
-
 		}
-
 	}
-
 	// Allow plugins to alter the slug.
 	ET::trigger("slug", array(&$string));
-
 	// Now replace non-alphanumeric characters with a hyphen, and remove multiple hyphens.
-	$slug = strtolower(trim(preg_replace(array("/[^0-9a-z]/i", "/-+/"), "-", $string), "-"));
-
-	return substr($slug, 0, 63);
+	$slug = str_replace(' ','-',trim(preg_replace('~[^\\pL\d]+~u',' ',mb_strtolower($string, "UTF-8"))));
+	return mb_substr($slug, 0, 63, "UTF-8");
 }
-
 
 /**
  * Generate a salt of $numOfChars characters long containing random letters, numbers, and symbols.
@@ -1091,4 +1067,28 @@ function lcfirst($str)
 	return $str;
 }
 
+}
+
+/**
+ * Clear the kvdb on sae with the prefix
+ * 
+ * @param string The prefix
+ * @return void
+ * 
+ */
+function clear_skincache($pre)
+{
+	$kv = new SaeKV();
+	$kv->init();
+	$ret = $kv->pkrget($pre,100);
+	if(empty($ret)) return false;
+	
+	foreach ($ret as $key => $value)
+	{
+		$kv->delete($key);
+		
+	}
+	unset($kv);
+	ET::$cache->remove(ET::$cache->fname_key);
+	return true;
 }

@@ -118,7 +118,7 @@ public function action_info()
 		if ($error = ET::memberModel()->validateEmail($values["adminEmail"], false)) $form->error("adminEmail", T("message.$error"));
 		if ($error = ET::memberModel()->validatePassword($values["adminPass"])) $form->error("adminPass", T("message.$error"));
 		if ($values["adminPass"] != $values["adminConfirm"]) $form->error("adminConfirm", T("message.passwordsDontMatch"));
-
+/*
 		// Try and connect to the database.
 		try {
 			ET::$database->init($values["mysqlHost"], $values["mysqlUser"], $values["mysqlPass"], $values["mysqlDB"]);
@@ -126,6 +126,7 @@ public function action_info()
 		} catch (PDOException $e) {
 			$form->error("mysql", $e->getMessage());
 		}
+		*/
 
 		// Check to see if there are any conflicting tables already in the database.
 		// If there are, show an error with a hidden input. If the form is submitted again with this hidden input,
@@ -180,18 +181,12 @@ public function action_install()
 	$config = array(
 		"esoTalk.installed" => true,
 		"esoTalk.version" => ESOTALK_VERSION,
-		"esoTalk.database.host" => $info["mysqlHost"],
-		"esoTalk.database.user" => $info["mysqlUser"],
-		"esoTalk.database.password" => $info["mysqlPass"],
-		"esoTalk.database.dbName" => $info["mysqlDB"],
-		"esoTalk.database.prefix" => $info["tablePrefix"]."_",
 		"esoTalk.forumTitle" => $info["forumTitle"],
 		"esoTalk.baseURL" => $info["baseURL"],
 		"esoTalk.emailFrom" => "do_not_reply@{$_SERVER["HTTP_HOST"]}",
-		"esoTalk.cookie.name" => preg_replace(array("/\s+/", "/[^\w]/"), array("_", ""), $info["forumTitle"]),
-		"esoTalk.urls.friendly" => !empty($info["friendlyURLs"]),
-		"esoTalk.urls.rewrite" => !empty($info["friendlyURLs"]) and function_exists("apache_get_modules") and in_array("mod_rewrite", apache_get_modules())
-	);
+		"esoTalk.cookie.name" => 'et',
+	);//"esoTalk.cookie.name" => preg_replace(array("/\s+/", "/[^\w]/"), array("_", ""), $info["forumTitle"]),
+
 
 	// Merge these new config settings into our current conifg variable.
 	ET::$config = array_merge(ET::$config, $config);
@@ -209,7 +204,7 @@ public function action_install()
 	// Write the $config variable to config.php.
 	@unlink(PATH_CONFIG."/config.php");
 	ET::writeConfig($config);
-
+/*
 	// Write custom.css and index.html as empty files (if they're not already there.)
 	if (!file_exists(PATH_CONFIG."/custom.css")) file_put_contents(PATH_CONFIG."/custom.css", "");
 	file_put_contents(PATH_CONFIG."/index.html", "");
@@ -225,7 +220,8 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php/$1 [QSA,L]
 </IfModule>");
 	}
-
+*/
+	/*
 	// Write a robots.txt file.
 	file_put_contents(PATH_ROOT."/robots.txt", "User-agent: *
 Crawl-delay: 10
@@ -233,7 +229,7 @@ Disallow: /conversations/*?search=*
 Disallow: /members/
 Disallow: /user/
 Disallow: /conversation/start/");
-
+*/
 	// Clear the session of install data.
 	ET::$session->remove("install");
 
@@ -299,7 +295,7 @@ protected function fatalChecks()
 
 	// Check for the MySQL extension.
 	if (!extension_loaded("mysql")) $errors[] = T("message.greaterMySQLVersionRequired");
-
+/*
 	// Check file permissions.
 	$fileErrors = array();
 	$filesToCheck = array("", "uploads", "uploads/avatars", "addons/plugins", "addons/skins", "addons/languages", "config", "cache");
@@ -322,7 +318,7 @@ protected function fatalChecks()
 		}
 	}
 	if (count($fileErrors)) $errors[] = sprintf(T("message.installerFilesNotWritable"), implode("</strong>, <strong>", $fileErrors));
-
+*/
 	return $errors;
 }
 

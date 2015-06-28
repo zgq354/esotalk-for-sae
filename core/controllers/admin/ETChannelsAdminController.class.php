@@ -184,6 +184,7 @@ public function action_create()
  			"description" => $form->getValue("description"),
  			"attributes" => array("defaultUnsubscribed" => $form->getValue("defaultUnsubscribed"))
 	 	));
+        
 
 	 	// If there were errors, pass them on to the form.
 	 	if ($model->errorCount()) $form->errors($model->errors());

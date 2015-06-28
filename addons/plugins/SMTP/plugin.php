@@ -12,7 +12,7 @@ ET::$pluginInfo["SMTP"] = array(
 	"authorEmail" => "support@esotalk.org",
 	"authorURL" => "http://esotalk.org",
 	"license" => "GPLv2"
-);
+	);
 
 class ETPlugin_SMTP extends ETPlugin {
 
@@ -20,13 +20,30 @@ class ETPlugin_SMTP extends ETPlugin {
 	{
 		if (!C("plugin.SMTP.server")) return;
 
-		$mail->IsSMTP();
+		$saemail = new SaeMail();
+		$saemail->setOpt(array('content_type' => 'HTML' ));
+		$prefix = '';
+		$tls = false;
+		if (C("plugin.SMTP.auth") == 'ssl') {
+			$prefix = 'ssl://';
+            $tls = false; 
+            //Can't have SSL and TLS at once
+        } elseif (C("plugin.SMTP.auth") == 'tls') {
+        	$tls = true;
+            //tls doesn't use a prefix
+        }
+
+        return $saemail->quickSend($to, $subject, $body, C("plugin.SMTP.username"), C("plugin.SMTP.password") ,C("plugin.SMTP.server"),C("plugin.SMTP.port"),$tls);
+
+		/*$mail->IsSMTP();
 		$mail->SMTPAuth   = true;
 		if (C("plugin.SMTP.auth")) $mail->SMTPSecure = C("plugin.SMTP.auth");
 		$mail->Host       = C("plugin.SMTP.server");
 		$mail->Port       = C("plugin.SMTP.port");
 		$mail->Username   = C("plugin.SMTP.username");
 		$mail->Password   = C("plugin.SMTP.password");
+		*/
+
 	}
 
 	/**

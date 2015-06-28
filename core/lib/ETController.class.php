@@ -134,6 +134,11 @@ public $canonicalURL = "";
  */
 private $messages = array();
 
+/**
+*
+* Cache the view filename
+*/
+private $views_filename = array();
 
 /**
  * Class constructor.
@@ -291,14 +296,19 @@ public function init()
 
 		// Get the number of members currently online and add it as a statistic.
 		if (C("esoTalk.members.visibleToGuests") or ET::$session->user) {
-			$online = ET::SQL()
-				->select("COUNT(*)")
-				->from("member")
-				->where("UNIX_TIMESTAMP()-:seconds<lastActionTime")
-				->bind(":seconds", C("esoTalk.userOnlineExpire"))
-				->exec()
-				->result();
-			$stat = Ts("statistic.online", "statistic.online.plural", number_format($online));
+			//Cache the number of members currently online
+			if(($stat = ET::$cache->get("online")) === false){
+				$online = ET::SQL()
+					->select("COUNT(*)")
+					->from("member")
+					->where("UNIX_TIMESTAMP()-:seconds<lastActionTime")
+					->bind(":seconds", C("esoTalk.userOnlineExpire"))
+					->exec()
+					->result();
+					
+				$stat = Ts("statistic.online", "statistic.online.plural", number_format((int)$online));
+				ET::$cache->store("online", $stat, 120);
+			}
 			$stat = "<a href='".URL("members/online")."' class='link-membersOnline'>$stat</a>";
 			$this->addToMenu("statistics", "statistic-online", $stat);
 		}
@@ -315,7 +325,7 @@ public function init()
 		$this->addJSVar("notificationCheckInterval", C("esoTalk.notificationCheckInterval"));
 
 		// If config/custom.css contains something, add it to be included in the page.
-		if (file_exists($file = PATH_CONFIG."/custom.css") and filesize($file) > 0) $this->addCSSFile("config/custom.css", true);
+		//if (file_exists($file = PATH_CONFIG."/custom.css") and filesize($file) > 0) $this->addCSSFile("config/custom.css", true);
 
 	}
 
@@ -459,13 +469,15 @@ public function render($view = "")
 			$titleParts = array();
 			if ($this->title) $titleParts[] = $this->title;
 			if ($t = C("esoTalk.forumTitle")) $titleParts[] = $t;
+			//副标题
+			if ($t = C("esoTalk.forumSubTitle")) $titleParts[] = $t;
 			$data["pageTitle"] = implode(" - ", $titleParts);
 
 			// Add the forum title, or logo if the forum has one.
 			$logo = C("esoTalk.forumLogo");
 			$title = C("esoTalk.forumTitle");
-			if ($logo) $size = getimagesize($logo);
-			$data["forumTitle"] = $logo ? "<img src='".getWebPath($logo)."' {$size[3]} alt='$title'/>" : $title;
+			//if ($logo) $size = getimagesize($logo);{$size[3]} 
+			$data["forumTitle"] = $logo ? "<img src='".getWebPath($logo)."' alt='$title'/>" : $title;
 
 			// Add the details for the "back" button.
 			$data["backButton"] = ET::$session->getNavigation($this->navigationId);
@@ -629,16 +641,52 @@ public function getViewPath($view)
 	// If the view has a file extension, assume it contains the full file path and use it as is.
 	if (pathinfo($view, PATHINFO_EXTENSION) == "php") return $view;
 
-	// Check the skin to see if it contains this view.
-	if (file_exists($skinView = ET::$skin->view($view))) return $skinView;
+	$_view = '';
 
-	// Check loaded plugins to see if one of them contains the view.
-	foreach (ET::$plugins as $k => $v) {
-		if (file_exists($pluginView = $v->view($view))) return $pluginView;
+	/*if (empty($this->views_filename)) {
+		$narr = ET::$cache->get("views_filename");
+		if($narr !== false) $this->views_filename = $narr;
+		unset($narr);
+	}*/
+	$narr = ET::$cache->filenames;
+	if($narr !== false && isset($narr["views_filename"]))
+		$this->views_filename = $narr["views_filename"];
+	//while $narr is empty create an new array
+	if(empty($narr)) $narr = array();
+
+
+	if(empty($this->views_filename) || $this->views_filename[$view] == false){
+
+		// Check the skin to see if it contains this view.
+		if (file_exists($skinView = ET::$skin->view($view))){
+			 $_view = $skinView;
+		}
+		else
+		{
+			// Check loaded plugins to see if one of them contains the view.
+			foreach (ET::$plugins as $k => $v) {
+				if (file_exists($pluginView = $v->view($view))) {
+					$_view = $pluginView;
+					break;
+				}
+			}
+		}
+
+		// Otherwise, just return the default view.
+		$_view = $_view == '' ? PATH_VIEWS."/$view.php" : $_view;
+
+		$this->views_filename[$view] = $_view;
+		$narr["views_filename"] = $this->views_filename;
+		//ET::$cache->store(ET::$cache->fname_key , $narr);
+		ET::$cache->filenames = $narr;
+		ET::$cache->fnamechanged = true;
+		//ET::$cache->store("views_filename" , $this->views_filename);
+
+	}else{
+		$_view = $this->views_filename[$view];
 	}
-
-	// Otherwise, just return the default view.
-	return PATH_VIEWS."/$view.php";
+	unset($narr);
+	return $_view;
 }
 
 
@@ -693,7 +741,7 @@ public function addJSVar($key, $val)
  */
 public function addJSFile($file, $global = false)
 {
-	if (strpos($file, "://") !== false) $key = "remote";
+	if ((strpos($file, "://") !== false) && (strpos($file, 'saekv://') === false) ) $key = "remote";
 	$key = $global ? "global" : "local";
 	$this->jsFiles[$key][] = $file;
 }
@@ -710,7 +758,7 @@ public function addJSFile($file, $global = false)
  */
 public function addCSSFile($file, $global = false)
 {
-	if (strpos($file, "://") !== false) $key = "remote";
+	if ((strpos($file, "://") !== false) && (strpos($file, 'saekv://') === false) ) $key = "remote";
 	else $key = $global ? "global" : "local";
 	$this->cssFiles[$key][] = $file;
 }
@@ -744,26 +792,60 @@ protected function aggregateFiles($files, $type)
 	$lastModTime = 0;
 	foreach ($files as $filename) {
 		$filenames[] = str_replace(".", "", pathinfo($filename, PATHINFO_FILENAME));
-		$lastModTime = max($lastModTime, filemtime(PATH_ROOT."/".$filename));
+		//$lastModTime = max($lastModTime, filemtime(PATH_ROOT."/".$filename));
 	}
+	$_name = implode("_", $filenames);
+	$_name = substr($_name, 0, 5).'_'.md5($_name);
 
 	// Construct a filename for the aggregation file based on the individual filenames.
-	$file = PATH_ROOT."/cache/$type/".implode(",", $filenames).".$type";
+	$file = PATH_ROOT."/cache/$type/".$_name.".$type";
+    $filesae = "saekv://cache/$type/".$_name.".$type";
+	// If this file doesn't exist, or if it is out of date, generate and write it. or filemtime($file) < $lastModTime
+	//if (!file_exists($file)) {
+    //先通过memcache判断是否生成了文件，节约在kvdb中读取的时间
+    $key = md5($filesae);
+    
+    $_filenames = array();
+    //load filename cache
+    $narr = ET::$cache->filenames;
+	if($narr !== false && isset($narr["static_cache"]))
+		$_filenames = $narr["static_cache"];
+	//while $narr is empty create an new array
+	if(empty($narr)) $narr = array();
 
-	// If this file doesn't exist, or if it is out of date, generate and write it.
-	if (!file_exists($file) or filemtime($file) < $lastModTime) {
-		$contents = "";
+    if(empty($_filenames) || $_filenames[$key] == false){
+        if(!file_exists($filesae)){
+            
+			$contents = "";
+            
+			// Get the contents of each of the files, fixing up image URL paths for CSS files.
+			foreach ($files as $f) {
+				$content = @file_get_contents(strpos($f, 'saekv://') === false ? PATH_ROOT."/".$f : $f);
+				if(!$content) continue;
+				if ($type == "css") $content = preg_replace("/url\(('?)/i", "url($1".getResource(pathinfo($f, PATHINFO_DIRNAME)."/"), $content);
+				$contents .= $content." ";
+			}
+	
+			// Minify and write the contents.
+			file_force_contents($filesae, $type == "css" ? minifyCSS($contents) : minifyJS($contents));
+        }
+        //memcache
+        $_filenames[$key] = $key;
+        //记录生成时间，以便自动更新浏览器缓存
+        $_filenames['lasttime'][$key] = time();
+        $narr["static_cache"] = $_filenames;
+		//ET::$cache->store(ET::$cache->fname_key , $narr);
+        ET::$cache->filenames = $narr;
+        ET::$cache->fnamechanged = true;
+        //ET::$cache->store('file_cache_'.$key, $key);
+    }
+	//}
 
-		// Get the contents of each of the files, fixing up image URL paths for CSS files.
-		foreach ($files as $f) {
-			$content = file_get_contents(PATH_ROOT."/".$f);
-			if ($type == "css") $content = preg_replace("/url\(('?)/i", "url($1".getResource(pathinfo($f, PATHINFO_DIRNAME)."/"), $content);
-			$contents .= $content." ";
-		}
-
-		// Minify and write the contents.
-		file_force_contents($file, $type == "css" ? minifyCSS($contents) : minifyJS($contents));
-	}
+    //获取生成时间
+    $lastModTime = $_filenames['lasttime'][$key];
+    if($lastModTime) $file .= '?t='.$lastModTime;
+	//var_dump($file);
+	//var_dump($_filenames);
 
 	return array($file);
 }
@@ -799,13 +881,14 @@ public function head()
 			$files = $this->aggregateFiles($files, "css");
 
 		// Otherwise, we need to prepend the full path to each of the files.
-		else foreach ($files as &$file) $file = PATH_ROOT."/".$file;
+		//else foreach ($files as &$file) $file = PATH_ROOT."/".$file;
+		else foreach ($files as &$file) $file = PATH_ROOT."/".str_replace("saekv://", '', $file);
 		unset($file);
 
 		// For each of the files that we need to include in the page, add a <link> tag.
 		foreach ($files as $file)
-			$head .= "<link rel='stylesheet' href='".getResource($file)."?".@filemtime($file)."'>\n";
-
+			//$head .= "<link rel='stylesheet' href='".getResource($file)."?".@filemtime($file)."'>\n";
+			$head .= "<link rel='stylesheet' href='".getResource($file)."'>\n";
 	}
 
 	// Add remote JavaScript.
@@ -824,12 +907,12 @@ public function head()
 			$files = $this->aggregateFiles($files, "js");
 
 		// Otherwise, we need to prepend the full path to each of the files.
-		else foreach ($files as &$file) $file = PATH_ROOT."/".$file;
+		else foreach ($files as &$file) $file = PATH_ROOT."/".str_replace("saekv://", '', $file);
 		unset($file);
 
 		// For each of the files that we need to include in the page, add a <script> tag.
 		foreach ($files as $file)
-			$head .= "<script src='".getResource($file)."?".filemtime($file)."'></script>\n";
+			$head .= "<script src='".getResource($file)."'></script>\n";
 	}
 
 

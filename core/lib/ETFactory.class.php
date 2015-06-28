@@ -56,10 +56,11 @@ public static function make($class, $parameter1 = null, $parameter2 = null, $par
 	else {
 		$className = self::$classes[$class][0];
 		if (!class_exists($className, false)) {
-			if (file_exists(self::$classes[$class][1])) require_once self::$classes[$class][1];
-			else {
-				throw new Exception("ETFactory: The file '".self::$classes[$class][1]."' for the class '$className' does not exist.");
-			}
+			//if (is_file(self::$classes[$class][1])) 
+				require_once self::$classes[$class][1];
+			//else {
+				//throw new Exception("ETFactory: The file '".self::$classes[$class][1]."' for the class '$className' does not exist.");
+			//}
 		}
 	}
 

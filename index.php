@@ -8,12 +8,16 @@ define("IN_ESOTALK", 1);
 define("PAGE_START_TIME", microtime(true));
 
 define("PATH_ROOT", dirname(__FILE__));
+define("PATH_SAESTOR", 'saestor://esotalk');
+define("SAESTOR_DOMAIN", 'esotalk');
 define("PATH_CORE", PATH_ROOT."/core");
-define("PATH_CACHE", PATH_ROOT."/cache");
-define("PATH_CONFIG", PATH_ROOT."/config");
+//define("PATH_CACHE", PATH_ROOT."/cache");
+define("PATH_CACHE", PATH_SAESTOR."/cache");
+//define("PATH_CONFIG", PATH_ROOT."/config");
+//define("PATH_CONFIG", PATH_SAESTOR."/config");
+define("PATH_CONFIG", "saekv://config");
 define("PATH_LANGUAGES", PATH_ROOT."/addons/languages");
 define("PATH_PLUGINS", PATH_ROOT."/addons/plugins");
 define("PATH_SKINS", PATH_ROOT."/addons/skins");
-define("PATH_UPLOADS", PATH_ROOT."/uploads");
-
+define("PATH_UPLOADS", "/uploads");
 require PATH_CORE."/bootstrap.php";

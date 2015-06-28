@@ -21,7 +21,6 @@ $form = $data["form"];
 <?php echo $form->open(); ?>
 
 <div class='sheetBody'>
-
 <?php if (!empty($data["message"])): ?>
 <div class='section help'>
 <?php echo $data["message"]; ?>
@@ -47,11 +46,9 @@ foreach ($form->getFieldsInSection($k) as $field): ?>
 </div></li>
 
 <?php endforeach; ?>
-
 </ul>
 
 </div>
-
 </div>
 
 <div class='buttons'>

@@ -642,7 +642,7 @@ public function create($data, $membersAllowed = array(), $isDraft = false)
 		$this->setDraft($conversation, ET::$session->userId, $content);
 	}
 	else {
-		$postId = ET::postModel()->create($conversationId, ET::$session->userId, $content);
+		$postId = ET::postModel()->create($conversationId, ET::$session->userId, $content, $conversation["title"]);
 
 		// If the conversation is private, send out notifications to the allowed members.
 		if (!empty($membersAllowed)) {
@@ -836,6 +836,12 @@ public function delete($wheres = array())
 
 	$sql->exec();
 
+	    //更新缓存
+    $am = ET::activityModel();
+    ET::$cache->store($am::CACHE_KEY.'_'.$post['memberId'].'_'.$am::CACHE_NS_KEY,time());
+    $sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
+
 	return true;
 }
 
@@ -883,6 +889,11 @@ public function setStatus($conversationIds, $memberIds, $data, $type = "member")
 		->setMultiple($keys, $inserts)
 		->setOnDuplicateKey($data)
 		->exec();
+		    //更新缓存
+    $am = ET::activityModel();
+    ET::$cache->store($am::CACHE_KEY.'_'.$post['memberId'].'_'.$am::CACHE_NS_KEY,time());
+    $sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
 }
 
 
@@ -911,6 +922,9 @@ public function setDraft(&$conversation, $memberId, $draft = null)
 
 	$this->trigger("setDraftAfter", array($conversation, $memberId, $draft));
 
+		//Flush conversition cache
+	$sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
 	return true;
 }
 
@@ -934,7 +948,9 @@ public function setLastRead(&$conversation, $memberId, $lastRead, $force = false
 	$this->setStatus($conversation["conversationId"], $memberId, array("lastRead" => $lastRead));
 
 	$conversation["lastRead"] = $lastRead;
-
+	//Flush conversition cache
+	$sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
 	return true;
 }
 
@@ -973,6 +989,10 @@ public function markAsRead($conversationIds, $memberId)
 		->setMultiple($keys, $inserts)
 		->setOnDuplicateKey("lastRead", "VALUES(lastRead)", false)
 		->exec();
+
+			//Flush conversition cache
+	$sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
 }
 
 
@@ -993,6 +1013,9 @@ public function setIgnored(&$conversation, $memberId, $ignored)
 
 	$this->addOrRemoveLabel($conversation, "ignored", $ignored);
 	$conversation["ignored"] = $ignored;
+		//Flush conversition cache
+	$sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
 }
 
 
@@ -1014,6 +1037,9 @@ public function setSticky(&$conversation, $sticky)
 
 	$this->addOrRemoveLabel($conversation, "sticky", $sticky);
 	$conversation["sticky"] = $sticky;
+		//Flush conversition cache
+	$sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
 }
 
 
@@ -1035,6 +1061,9 @@ public function setLocked(&$conversation, $locked)
 
 	$this->addOrRemoveLabel($conversation, "locked", $locked);
 	$conversation["locked"] = $locked;
+		//Flush conversition cache
+	$sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
 }
 
 
@@ -1076,6 +1105,10 @@ public function setTitle(&$conversation, $title)
 	ET::postModel()->update(array("title" => $title), array("conversationId" => $conversation["conversationId"]));
 
 	$conversation["title"] = $title;
+
+		//Flush conversition cache
+	$sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
 
 	return true;
 }
@@ -1130,6 +1163,10 @@ public function setChannel(&$conversation, $channelId)
 		->exec();
 
 	$conversation["channelId"] = $channelId;
+
+		//Flush conversition cache
+	$sm = ET::searchModel();
+	ET::$cache->store($sm::CACHE_NS_KEY,time());
 
 	return true;
 }

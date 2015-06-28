@@ -12,6 +12,22 @@
  */
 
 class ETCache {
+    
+    public $mmc;
+
+    public $filenames = array();
+    
+    public $fnamechanged = false;
+
+    public $fname_key = 'c_filenames';
+    
+    function __construct(){
+
+        $this->mmc = memcache_init();
+        //Load filenames
+        $arr = self::get($this->fname_key);
+        if(is_array($arr)) $this->filenames = $arr;
+ 	}
 
 /**
  * Check if a value exists in the cache.
@@ -21,7 +37,8 @@ class ETCache {
  */
 public function exists($key)
 {
-	return false;
+    //return false;
+    return $this->mmc->get($key)?true:false;
 }
 
 /**
@@ -32,7 +49,8 @@ public function exists($key)
  */
 public function get($key)
 {
-	return false;
+    //return false;
+    return $this->mmc->get($key);
 }
 
 /**
@@ -45,7 +63,8 @@ public function get($key)
  */
 public function store($key, $value, $ttl = 0)
 {
-	return true;
+    //return true;
+    return $this->mmc->set($key, $value ,0, $ttl);
 }
 
 /**
@@ -56,7 +75,9 @@ public function store($key, $value, $ttl = 0)
  */
 public function remove($key)
 {
-	return true;
+    //return true;
+    return $this->mmc->delete($key);
+
 }
 
 }

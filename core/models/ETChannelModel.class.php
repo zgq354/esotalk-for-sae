@@ -232,7 +232,7 @@ public function addPermissionPredicate(&$sql, $field = "view", $member = false, 
  */
 public function create($values)
 {
-	// Check that a channel title has been entered.
+    // Check that a channel title has been entered.
 	if (!isset($values["title"])) $values["title"] = "";
 	$this->validate("title", $values["title"], array($this, "validateTitle"));
 
