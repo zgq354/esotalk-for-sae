@@ -16,7 +16,8 @@ if (!defined("IN_ESOTALK")) exit;
 <meta charset='<?php echo T("charset", "utf-8"); ?>'>
 <title><?php echo sanitizeHTML($data["pageTitle"]); ?></title>
 <?php echo $data["head"]; ?>
-<link href="<?php echo getResource("core/skin/favicon.ico");?>" type="image/x-icon" rel="shortcut icon">
+<link rel="icon" type="image/png" href="<?php echo getResource("core/skin/favicon.png");?>">
+<link rel="apple-touch-icon" href="<?php echo getResource("core/skin/apple-touch-icon.png");?>">
 <script>
 // Turn off JS effects and fixed positions, and disable tooltips.
 jQuery.fx.off = true;

@@ -16,21 +16,8 @@ if (!defined("IN_ESOTALK")) exit;
 <meta charset='<?php echo T("charset", "utf-8"); ?>'>
 <title><?php echo sanitizeHTML($data["pageTitle"]); ?></title>
 <?php echo $data["head"]; ?>
-<link href="<?php echo getResource("core/skin/favicon.ico");?>" type="image/x-icon" rel="shortcut icon">
- <!-- Add to homescreen for Chrome on Android -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="icon" sizes="192x192" href="<?php echo getResource("core/skin/favicon.png");?>">
-
-  <!-- Add to homescreen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="<?php echo sanitizeHTML($data["pageTitle"]); ?>"/>
-  <link rel="apple-touch-icon-precomposed" href="<?php echo getResource("core/skin/favicon.png");?>">
-
-  <!-- Tile icon for Win8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage" content="<?php echo getResource("core/skin/favicon.png");?>">
-  <meta name="msapplication-TileColor" content="#0e90d2">
-
+<link rel="icon" type="image/png" href="<?php echo getResource("core/skin/favicon.png");?>">
+<link rel="apple-touch-icon" href="<?php echo getResource("core/skin/apple-touch-icon.png");?>">
 </head>
 
 <body class='<?php echo $data["bodyClass"]; ?>'>
