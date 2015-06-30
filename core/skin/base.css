@@ -77,7 +77,7 @@ span.highlight {background:#fdef34; padding:1px 4px; border-radius:3px}
 
 
 /* Controls */
-.controls {list-style-type:none; padding:0; font-size:85%; white-space:nowrap}
+.controls {transition:0.3s;list-style-type:none; padding:0; font-size:85%; white-space:nowrap}
 .controls > li {display:inline; margin-right:10px}
 
 .hasControls .controls {opacity:0; float:right; transition:opacity 0.1s linear}

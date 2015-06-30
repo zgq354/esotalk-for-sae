@@ -29,7 +29,7 @@ if (!defined("IN_ESOTALK")) exit;
 <?php
 // Controls
 if ($data["controlsMenu"]->count()): ?>
-<ul id='searchControls' class='controls'>
+<ul id='searchControls' class='controls' style='display:none;'>
 <?php echo $data["controlsMenu"]->getContents(); ?>
 </ul>
 <?php endif; ?>

@@ -177,7 +177,7 @@ $this->renderView("conversation/channelPath", array("conversation" => $conversat
 <?php
 // Controls
 if ($data["controlsMenu"]->count()): ?>
-<ul id='conversationControls' class='controls'>
+<ul id='conversationControls' class='controls' style='display:none;'>
 <?php echo $data["controlsMenu"]->getContents(); ?>
 </ul>
 <?php endif; ?>
