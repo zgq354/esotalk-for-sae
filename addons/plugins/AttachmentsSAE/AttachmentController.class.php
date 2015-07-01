@@ -113,11 +113,12 @@ class AttachmentController extends ETController {
 		$path = $model->path().$attachmentId.'_'.$attachment["filename"];
 		//$thumb = $path."_thumb";
 		$thumb = $model->path().'thumb_'.$attachmentId.'_'.$attachment["filename"];
+		$thumb_encode = $model->path().urlencode('thumb_'.$attachmentId.'_'.$attachment["filename"]);
 
 		if (!file_exists(PATH_SAESTOR.$thumb)) {
 			try {
 				$uploader = ET::uploader();
-				$thumb = $uploader->saveAsImage(PATH_SAESTOR.$path, $thumb, 200, 150, "max");
+				$thumb = $uploader->saveAsImage(PATH_SAESTOR.$path, $thumb, 400, 300, "max");
 				//$newThumb = substr($thumb, 0, strrpos($thumb, "."));
 				//rename($thumb, $newThumb);
 				//$thumb = $newThumb;
@@ -128,7 +129,7 @@ class AttachmentController extends ETController {
 				//in SAE
 		$s = new SaeStorage();
         if($s->fileExists(SAESTOR_DOMAIN,$thumb)){
-            $url = $s->getUrl(SAESTOR_DOMAIN,urlencode($thumb));
+            $url = $s->getUrl(SAESTOR_DOMAIN,$thumb_encode);
             redirect($url);
         }else{
             $this->render404(T("message.attachmentNotFound"), true);
