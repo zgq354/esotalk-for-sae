@@ -148,12 +148,12 @@ class AttachmentController extends ETController {
 		$uploader->inputName = 'qqfile';
 
 		// Set the allowed file types based on config.
-		$allowedFileTypes = C("plugin.Attachments.allowedFileTypes");
+		$allowedFileTypes = C("plugin.AttachmentsSAE.allowedFileTypes");
 		if (!empty($allowedFileTypes))
 			$uploader->allowedExtensions = $allowedFileTypes;
 
 		// Set the max file size based on config.
-		if ($size = C("plugin.Attachments.maxFileSize"))
+		if ($size = C("plugin.AttachmentsSAE.maxFileSize"))
 			$uploader->sizeLimit = $size;
 
 		// Generate a unique ID and secret for this attachment.
