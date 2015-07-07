@@ -326,17 +326,19 @@ protected function getSelectedChannels($channelSlug = "")
  *
  * @return void
  */
-public function action_markAllAsRead()
-{
-	// Update the user's preferences.
-	ET::$session->setPreferences(array("markedAllConversationsAsRead" => time()));
-
-	// For a normal response, redirect to the conversations page.
-	if ($this->responseType === RESPONSE_TYPE_DEFAULT) $this->redirect(URL("conversations"));
-
-	// For an ajax response, just pretend this is a normal search response.
-	$this->index();
-}
+public function action_markAllAsRead() {
+		// Update the user's preferences.
+		ET::$session->setPreferences ( array (
+				"markedAllConversationsAsRead" => time () 
+		) );
+		
+		// For a normal response, redirect to the conversations page.
+		if ($this->responseType === RESPONSE_TYPE_DEFAULT)
+			$this->redirect ( URL ( "conversations" ) );
+			
+			// For an ajax response, just pretend this is a normal search response.
+		$this->action_index ();
+	}
 
 
 /**
