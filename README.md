@@ -13,7 +13,7 @@ esoTalk SAE移植版本
 ###如何安装？
 
 1. 在sae后台中创建应用，选择PHP5.6环境(PHP5.3也可以)，并在代码管理页创建一个版本
-2. 下载本项目的代码，解压后将文件中的代码打包上传或用svn推送至sae中
+2. 下载本项目的代码[(最新代码)](https://github.com/zgq354/esotalk-for-sae/archive/master.zip)，解压后将文件中的代码打包上传或用svn推送至sae中
 3. 初始化mysql(选MyISAM引擎)
 4. 初始化memcache(容量5M即可，多点也无所谓)
 5. 在storage中创建一个名为esotalk的domain
