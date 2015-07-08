@@ -406,17 +406,30 @@ public function getConversationIDs($channelIDs = array(), $searchString = "", $o
 
 		// Run a query against the posts table to get matching conversation IDs.
 		$fulltextString = implode(" ", $this->fulltext);
+		//中文分词，搜索更加准确
+		$fulltextString = ($s = spiltWords($fulltextString)) ? $s :$fulltextString;
+		$KeywordArray = explode(" ", $fulltextString);
+		//分词后
+		$this->fulltext = $KeywordArray;
+		$like = '';
+		$count = count($KeywordArray);
+		foreach ($KeywordArray as $key => $value){
+			$like .= "(title LIKE '%$value%')";
+			if( ET::$session->user )
+				$like .= " OR (content LIKE '%$value%')";
+			if ( $key+1 != $count ){
+				$like .= " OR ";
+			}
+		}
 		if(preg_match('/[\x80-\xff]/i',$fulltextString))
 		{
 			
 			$fulltextQuery = ET::SQL()
 			->select("DISTINCT conversationId")
 			->from("post")
-			->where("(title LIKE :fulltext) OR (content LIKE :fulltext)")
+			->where($like)
 			->where($idCondition)
-			->orderBy("conversationId DESC")
-			->bind(":fulltext", "%".$fulltextString."%")
-			->bind(":fulltextOrder", $fulltextString);
+			->orderBy("conversationId DESC");
 
 		}
 		else

@@ -4,10 +4,10 @@ esoTalk SAE移植版本
 
 ###说明
 
-1. 基于esoTalk 1.0.0g4移植而成(未来将与原版保持同步)
+1. 基于esoTalk 1.0.0g4移植而成(未来将与原版保持同步) 原版地址：[http://esotalk.org/](http://esotalk.org/)
 2. 为sae环境做了大量优化, 速度极快
-3. 依赖的服务：MySQL(MyISAM引擎), memcache(5M), kvdb(存储配置文件及css和js缓存), storage(存储头像和附件)
-4. 中文搜索优化(未完美解决)
+3. 依赖的服务：MySQL(MyISAM引擎), memcache(5M), kvdb(存储配置文件及css和js缓存), storage(存储头像和附件), 中文分词服务
+4. 中文搜索优化(未完美解决, 不过应该是可以用的, 采用MySQL的like搜索方式，帖子多的情况下可能较为消耗资源)
 5. 支持上传附件
 
 ###如何安装？
@@ -17,7 +17,8 @@ esoTalk SAE移植版本
 3. 初始化mysql(选MyISAM引擎)
 4. 初始化memcache(容量5M即可，多点也无所谓)
 5. 在storage中创建一个名为esotalk的domain
-6. 访问你的应用地址，按提示安装即可
+6. 初始化分词服务
+7. 访问你的应用地址，按提示安装即可
 
 遇到问题或bug，可在 [http://esotalks.sinaapp.com/](http://esotalks.sinaapp.com/) 上求助。或提交issue
 
