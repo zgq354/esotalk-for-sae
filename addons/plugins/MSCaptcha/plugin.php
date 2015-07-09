@@ -39,6 +39,7 @@ class ETPlugin_MSCaptcha extends ETPlugin {
 		function($form, $key, &$data)
 		{
 			if (ET::$session->get('mscaptcha') != $form->getValue($key)) {
+				ET::$session->store('inputmscaptha', $form->getValue($key));
 				$form->error($key, T("Invalid!, You need calculator? :D"));
 			}
 		});

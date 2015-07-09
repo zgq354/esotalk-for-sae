@@ -20,13 +20,16 @@ Class MSCaptchaController extends ETController {
 		// Create white color
 		$white = imagecolorallocate($src, 255, 255, 255);
 		imagefill($src, 0, 0, $white);
-		
-		// Genrate random number
-		$a = rand(1, 20);
-		$b = rand(1, 20);
-		
-		// Get the code		
-		$c = $a + $b;
+		//Prevent the spider use the same number as captcha to register automaticly.
+		$cc = ET::$session->get('inputmscaptha');
+		while (true){
+			// Genrate random number
+			$a = rand(1, 20);
+			$b = rand(1, 20);
+			// Get the code
+			$c = $a + $b;
+			if ($c != $cc) break;
+		}
 		// Genrate session of code
 		ET::$session->store('mscaptcha', $c);
 		
