@@ -1,0 +1,23 @@
+<?php
+$definitions["About"] = "關於成員";
+$definitions["Create Field"] = "創建字段";
+$definitions["Edit Field"] = "Edit Field";
+$definitions["Field description"] = "編輯描述";
+$definitions["Field name"] = "字段名";
+$definitions["Hide field from guests"] = "對遊客";
+$definitions["Input type"] = "輸入類型";
+$definitions["Location"] = "位置";
+$definitions["Manage Profile Fields"] = "管理字段";
+$definitions["Options"] = "選擇";
+$definitions["Privacy"] = "隱私";
+$definitions["Show field on posts"] = "在話題中顯示";
+$definitions["Hide field from guests"] = "對遊客隱藏";
+$definitions["Searchable in member list"] = "允許會員列表中搜索";
+$definitions["Write something about yourself."] = "寫點關於你的";
+$definitions["Text"] = "單行文本";
+$definitions["Textarea"] = "長文本框";
+$definitions["Select"] = "下拉選擇";
+$definitions["Radio buttons"] = "單選按鈕";
+$definitions["Checkboxes"] = "多選按鈕";
+$definitions["Member reference"] = "單行鏈接";
+$definitions["Enter one option per line"] = "每行一個選項";
