@@ -2,14 +2,14 @@
 // Copyright 2011 Toby Zerner, Simon Zerner
 // This file is part of esoTalk. Please see the included license file for usage information.
 
-ET::$languageInfo["TChinese"] = array(
-	"locale" => "zh-TW",
-	"name" => "繁體中文",
-	"description" => "繁體中文語言包",
+ET::$languageInfo["TChineseHK"] = array(
+	"locale" => "zh-HK",
+	"name" => "香港繁體中文",
+	"description" => "中文語言包",
 	"version" => ESOTALK_VERSION,
 	"author" => "akarin",
 	"authorEmail" => "h@akarin.xyz",
-	"authorURL" => "http://akarin.xyz",
+	"authorURL" => "akarin.xyz",
 	"license" => "GPLv2"
 );
 
@@ -39,7 +39,7 @@ $definitions["%s changed %s's group to %s."] = "%s更改 %s的小組到 %s.";
 $definitions["%s changed your group to %s."] = "%s更改你的小組到%s.";
 $definitions["%s conversation"] = "%s話題";
 $definitions["%s conversations"] = "%s個話題";
-$definitions["%s has registered and is awaiting approval."] = "%s已註冊，等待審覈";
+$definitions["%s has registered and is awaiting approval."] = "%s已註冊，等待審核";
 $definitions["%s invited you to %s."] = "%s邀請你%s.";
 $definitions["%s joined the forum."] = "%s加入論壇.";
 $definitions["%s mentioned you in %s."] = "%s在%s提到你";
@@ -59,18 +59,18 @@ $definitions["a private conversation"] = "私人話題";
 $definitions["Automatically follow conversations that I reply to"] = "自動關注我參與的話題";
 $definitions["Automatically follow private conversations that I'm added to"] = "自動關注我參與的私人話題";
 $definitions["Access the administrator control panel."] = "訪問管理面板.";
-$definitions["Account type"] = "用戶類型";
+$definitions["Account type"] = "用户類型";
 $definitions["Activate"] = "激活";
 $definitions["Activity"] = "參與話題";
 $definitions["Add"] = "添加";
 $definitions["Administration"] = "管理員";
 $definitions["Administrator email"] = "管理員郵箱";
 $definitions["Administrator password"] = "管理員密碼";
-$definitions["Administrator username"] = "管理員用戶名";
+$definitions["Administrator username"] = "管理員用户名";
 $definitions["Advanced options"] = "高級選項";
 $definitions["All Channels"] = "全部話題";
 $definitions["Allow members to edit their own posts:"] = "允許成員編輯自己的帖子:";
-$definitions["Already have an account? <a href='%s' class='link-login'>Log in!</a>"] = "已經有一個帳戶嗎? <a href='%s' class='link-login'>登入</a>";
+$definitions["Already have an account? <a href='%s' class='link-login'>Log in!</a>"] = "已經有一個帳户嗎? <a href='%s' class='link-login'>登入</a>";
 $definitions["Appearance"] = "外觀";
 $definitions["Approve"] = "贊成";
 $definitions["Automatically star conversations that I reply to"] = "自動關注我參與的話題.";
@@ -120,7 +120,7 @@ $definitions["Copy permissions from"] = "複製權限";
 $definitions["Create Channel"] = "添加節點";
 $definitions["Create Group"] = "添加小組";
 $definitions["Create Member"] = "添加成員";
-$definitions["Customize how users can become members of your forum."] = "開啓/關閉新會員註冊";
+$definitions["Customize how users can become members of your forum."] = "開啟/關閉新會員註冊";
 $definitions["Customize your forum's appearance"] = "更改社區外觀";
 
 $definitions["Dashboard"] = "系統";
@@ -137,9 +137,9 @@ $definitions["Deny"] = "拒絕";
 $definitions["Disable"] = "關閉";
 $definitions["Discard"] = "丟棄";
 $definitions["Don't allow other users to see when I am online"] = "對所有人隱身";
-$definitions["Don't have an account? <a href='%s' class='link-join'>Sign up!</a>"] = "還沒有賬戶嗎?<a href='%s' class='link-join'>註冊</a>";
+$definitions["Don't have an account? <a href='%s' class='link-join'>Sign up!</a>"] = "還沒有賬户嗎?<a href='%s' class='link-join'>註冊</a>";
 $definitions["Don't repeat"] = "不要重複";
-$definitions["Don't require users to confirm their account"] = "不要求用戶確認他們的帳戶";
+$definitions["Don't require users to confirm their account"] = "不要求用户確認他們的帳户";
 
 $definitions["Edit Channel"] = "編輯節點";
 $definitions["Edit Group"] = "編輯小組";
@@ -152,7 +152,7 @@ $definitions["Email me when I'm added to a private conversation"] = "收到私�
 $definitions["Email me when someone mentions me in a post"] = "有人提到我時，郵件通知我";
 $definitions["Email me when someone posts in a conversation I have followed"] = "我關注的話題有新動態時，郵件通知我";
 $definitions["Email"] = "Email";
-$definitions["Enable"] = "啓用";
+$definitions["Enable"] = "啟用";
 $definitions["Enabled"] = "激活";
 $definitions["Enter a conversation title"] = "請輸入標題";
 $definitions["Error"] = "出錯了";
@@ -218,7 +218,7 @@ $definitions["Joined"] = "加入";
 $definitions["just now"] = "剛剛";
 
 $definitions["Keep me logged in"] = "保持我的登入";
-$definitions["<strong>Keep this member's posts.</strong> All of this member's posts will remain intact, but will show [deleted] as the author."] = "<strong>保留該會員的話題.</strong>這個會員的所有發言將會保留,但是會顯示爲作者已刪除.";
+$definitions["<strong>Keep this member's posts.</strong> All of this member's posts will remain intact, but will show [deleted] as the author."] = "<strong>保留該會員的話題.</strong>這個會員的所有發言將會保留,但是會顯示為作者已刪除.";
 
 $definitions["label.draft"] = "草稿";
 $definitions["label.locked"] = "鎖定";
@@ -243,10 +243,10 @@ $definitions["Manage Channels"] = "管理節點";
 $definitions["Manage Groups"] = "管理羣組";
 $definitions["Manage Languages"] = "管理語言";
 $definitions["Manage your forum's channels (categories)"] = "管理社區節點（分類）";
-$definitions["Mark as read"] = "標爲已讀";
-$definitions["Mark as unread"] = "標爲未讀";
-$definitions["Mark all as read"] = "全部標記爲已讀";
-$definitions["Mark listed as read"] = "標記列表爲已讀";
+$definitions["Mark as read"] = "標為已讀";
+$definitions["Mark as unread"] = "標為未讀";
+$definitions["Mark all as read"] = "全部標記為已讀";
+$definitions["Mark listed as read"] = "標記列表為已讀";
 $definitions["Maximum size of %s. %s."] = "最大%s , 只支持%s";
 $definitions["Member groups"] = "會員組";
 $definitions["Member list"] = "會員列表";
@@ -254,7 +254,7 @@ $definitions["Member List"] = "會員列表";
 $definitions["Member privacy"] = "會員信息";
 $definitions["Members"] = "會員";
 $definitions["Members Allowed to View this Conversation"] = "添加可見會員";
-$definitions["Members Awaiting Approval"] = "會員待審覈";
+$definitions["Members Awaiting Approval"] = "會員待審核";
 $definitions["Members Online"] = "在線會員";
 $definitions["Members who are part of this group can be listed by searching for the group name in the member list."] = "羣組成員可被搜索羣組名得到成員列表";
 $definitions["Mobile skin"] = "移動風格";
@@ -266,7 +266,7 @@ $definitions["MySQL host address"] = "主機:";
 $definitions["MySQL password"] = "密碼:";
 $definitions["MySQL queries"] = "MySQL查詢";
 $definitions["MySQL table prefix"] = "數據庫前輟:";
-$definitions["MySQL username"] = "MySQL用戶名";
+$definitions["MySQL username"] = "MySQL用户名";
 $definitions["MySQL version"] = "MySQL版本";
 
 $definitions["Name"] = "名字";
@@ -279,7 +279,7 @@ $definitions["New email"] = "新的Email";
 $definitions["New members in the past week"] = "一週內新加入的會員";
 $definitions["New password"] = "新密碼";
 $definitions["New posts in the past week"] = "一週內新發言";
-$definitions["New username"] = "新用戶名";
+$definitions["New username"] = "新用户名";
 $definitions["Next Step"] = "下一步";
 $definitions["Next"] = "下一步";
 $definitions["No preview"] = "無預覽";
@@ -312,7 +312,7 @@ $definitions["Previous"] = "前一個";
 $definitions["Quote"] = "引用";
 $definitions["quote"] = "引用";
 
-$definitions["Read more"] = "閱讀全文";
+$definitions["Read more"] = "閲讀全文";
 $definitions["Recent posts"] = "最近發佈";
 $definitions["Recover Password"] = "重置密碼";
 $definitions["Registered members"] = "註冊會員";
@@ -351,7 +351,7 @@ $definitions["Starred"] = "關注";
 $definitions["Start"] = "發佈";
 $definitions["Start a conversation"] = "發起一個話題";
 $definitions["Start a new conversation"] = "發起一個話題";
-$definitions["Start a private conversation with %s"] = "與%s開啓一個私人話題";
+$definitions["Start a private conversation with %s"] = "與%s開啟一個私人話題";
 $definitions["Start Conversation"] = "發佈";
 $definitions["Starting a conversation"] = "關注話題";
 $definitions["Statistics"] = "統計";
@@ -364,9 +364,9 @@ $definitions["statistic.online"] = "%s在線";
 $definitions["statistic.post.plural"] = "%s發言";
 $definitions["statistic.post"] = "%s發言";
 $definitions["Sticky"] = "置頂";
-$definitions["Subscribe"] = "訂閱";
-$definitions["Subscribed"] = "訂閱";
-$definitions["Subscription"] = "訂閱";
+$definitions["Subscribe"] = "訂閲";
+$definitions["Subscribed"] = "訂閲";
+$definitions["Subscription"] = "訂閲";
 $definitions["Success!"] = "成功!";
 $definitions["Suspend member"] = "屏蔽成員";
 $definitions["Suspend members."] = "屏蔽成員";
@@ -377,11 +377,11 @@ $definitions["To get started with your forum, you might like to:"] = "現在開�
 $definitions["Unapproved"] = "不同意";
 $definitions["Unhide"] = "取消隱藏";
 $definitions["Uninstall"] = "卸載";
-$definitions["Unlock"] = "開啓";
+$definitions["Unlock"] = "開啟";
 $definitions["Unmute conversation"] = "取消屏蔽話題";
 $definitions["Unstarred"] = "取消關注";
 $definitions["Unsticky"] = "取消置頂";
-$definitions["Unsubscribe new users by default"] = "創建的新節點不訂閱給新用戶";
+$definitions["Unsubscribe new users by default"] = "創建的新節點不訂閲給新用户";
 $definitions["Unsubscribe"] = "退訂";
 $definitions["Unsubscribed"] = "退訂";
 $definitions["Unsuspend member"] = "取消屏蔽成員";
@@ -392,9 +392,9 @@ $definitions["Upgrade esoTalk"] = "更新esoTalk";
 $definitions["Use a background image"] = "使用背景圖像";
 $definitions["Use for mobile"] = "使用移動設備";
 $definitions["Use friendly URLs"] = "URL Rewrite";
-$definitions["Used to verify your account and subscribe to conversations"] = "用於驗證你的帳戶和訂閱話題";
-$definitions["Username"] = "用戶名";
-$definitions["Username or Email"] = "用戶名 或 Email";
+$definitions["Used to verify your account and subscribe to conversations"] = "用於驗證你的帳户和訂閲話題";
+$definitions["Username"] = "用户名";
+$definitions["Username or Email"] = "用户名 或 Email";
 
 $definitions["View %s's profile"] = "查看%s的個人資料";
 $definitions["View all notifications"] = "查看所有通知";
@@ -416,7 +416,7 @@ $definitions["Your current password"] = "當前密碼";
 
 // Messages.
 $definitions["message.404"] = "頁面不存在! 返回查看其他頁面.";
-$definitions["message.accountNotYetApproved"] = "管理員還沒有審覈，耐心點兒等待吧!";
+$definitions["message.accountNotYetApproved"] = "管理員還沒有審核，耐心點兒等待吧!";
 $definitions["message.ajaxDisconnected"] = "你的信號不太好呢!<a href='javascript:jQuery.ETAjax.resumeAfterDisconnection()'>重試</a>, or <a href='' onclick='window.location.reload();return false'>刷新</a>.";
 $definitions["message.ajaxRequestPending"] = "服務器正在處理,請稍候並且不要關閉頁面.";
 $definitions["message.avatarError"] = "上傳頭像失敗,請上傳正確圖像格式文件,如PNG,JPG,PNG或GIF.";
@@ -427,20 +427,20 @@ $definitions["message.channelsHelp"] = "節點用於分類論壇上的話題,請
 $definitions["message.channelSlugTaken"] = "這個固定鏈接已經被別的節點佔用";
 $definitions["message.confirmDelete"] = "確定永久刪除?";
 $definitions["message.confirmDiscardPost"] = "沒有保存草稿，捨棄嗎?";
-$definitions["message.confirmEmail"] = "成爲正式會員之前,你需要確認電子郵箱地址!你會收到一封包含一個鏈接用於激活你的帳戶的電子郵件";
+$definitions["message.confirmEmail"] = "成為正式會員之前,你需要確認電子郵箱地址!你會收到一封包含一個鏈接用於激活你的帳户的電子郵件";
 $definitions["message.confirmLeave"] = "草稿還沒有保存,真的要捨棄並離開嗎?";
-$definitions["message.connectionError"] = "無法連接數據庫. 返回錯誤爲:<br/>%s";
+$definitions["message.connectionError"] = "無法連接數據庫. 返回錯誤為:<br/>%s";
 $definitions["message.conversationDeleted"] = "話題刪除成功!";
 $definitions["message.conversationNotFound"] = "無法查看話題,它可能已被刪除或者你沒有權限.";
-$definitions["message.cookieAuthenticationTheft"] = "由於賬戶安全原因,你需要重新登錄!";
+$definitions["message.cookieAuthenticationTheft"] = "由於賬户安全原因,你需要重新登錄!";
 $definitions["message.deleteChannelHelp"] = "節點及節點內所有話題將永久刪除!刪除前可以將話題轉移到別的節點以保留話題.";
-$definitions["message.emailConfirmed"] = "你的帳戶已成功激活! 你現在可以參加討論或者<a href='".URL("conversation/start")."'>發佈</a>一個話題.";
-$definitions["message.emailDoesntExist"] = "找不到該用戶,請確認後重試!";
-$definitions["message.emailNotYetConfirmed"] = "登錄前請先激活賬戶, 如果你沒有收到電子郵件<a href='%s'>點擊這裏重新發送</a>.";
+$definitions["message.emailConfirmed"] = "你的帳户已成功激活! 你現在可以參加討論或者<a href='".URL("conversation/start")."'>發佈</a>一個話題.";
+$definitions["message.emailDoesntExist"] = "找不到該用户,請確認後重試!";
+$definitions["message.emailNotYetConfirmed"] = "登錄前請先激活賬户, 如果你沒有收到電子郵件<a href='%s'>點擊這裏重新發送</a>.";
 $definitions["message.emailTaken"] = "郵箱已被註冊!";
-$definitions["message.empty"] = "此項爲必填項.";
-$definitions["message.emptyPost"] = "你什麼都沒說";
-$definitions["message.emptyTitle"] = "標題不能爲空.";
+$definitions["message.empty"] = "此項為必填項.";
+$definitions["message.emptyPost"] = "你什麼都沒説";
+$definitions["message.emptyTitle"] = "標題不能為空.";
 $definitions["message.esoTalkAlreadyInstalled"] = "<strong>esoTalk安裝完成.</strong><br/><small>如需重新安裝,請刪除<strong>config/config.php</strong>.</small>";
 $definitions["message.esoTalkUpdateAvailable"] = "新版esoTalk, %s, 已經發布.";
 $definitions["message.esoTalkUpdateAvailableHelp"] = "新版本通常更安全,也附加一些新功能,建議更新.";
@@ -455,16 +455,16 @@ $definitions["message.forgotPasswordHelp"] = "請輸入註冊的郵箱地址,我
 $definitions["message.fulltextKeywordWarning"] = "提醒:長度小於四個字符和常見的英文單詞,如for/of等,不包含在搜索條件內!";
 $definitions["message.gambitsHelp"] = "點擊以下關鍵字,搜索特定內容.";
 $definitions["message.gdNotEnabledWarning"] = "PHP<strong>GD模塊</strong> 沒有打開.<br/><small>這是編輯頭像的必須模塊,請聯繫你的主機商安裝或打開它.</small>";
-$definitions["message.greaterMySQLVersionRequired"] = "請確保使用<strong>MySQL4或以上版本</strong>才能完美運行esoTalk<a href='http://php.net/manual/en/mysql.installation.php' target='_blank'>PHP中要開啓mysql支持模塊</a>.<br/><small>請在你的主機裏安裝或升級這些環境要求,以便可以正常運行esoTalk.</small>";
+$definitions["message.greaterMySQLVersionRequired"] = "請確保使用<strong>MySQL4或以上版本</strong>才能完美運行esoTalk<a href='http://php.net/manual/en/mysql.installation.php' target='_blank'>PHP中要開啟mysql支持模塊</a>.<br/><small>請在你的主機裏安裝或升級這些環境要求,以便可以正常運行esoTalk.</small>";
 $definitions["message.greaterPHPVersionRequired"] = "服務器要求<strong>PHP 5.0.0 或者更高版本</strong>才能完美運行esoTalk.<br/><small>請在你的主機裏安裝或升級這些環境要求,以便可以正常運行esoTalk.</small>";
 $definitions["message.incorrectLogin"] = "登錄信息有誤";
 $definitions["message.incorrectPassword"] = "當前密碼有誤.";
-$definitions["message.installerAdminHelp"] = "管理員帳戶信息:";
-$definitions["message.installerFilesNotWritable"] = "以下文件不可寫:<strong>%s</strong>.<br/><small>請將以下賬戶<strong>設置爲</strong><strong>777或IIS賬戶有寫入權限(win系統)</strong>.</small>";
+$definitions["message.installerAdminHelp"] = "管理員帳户信息:";
+$definitions["message.installerFilesNotWritable"] = "以下文件不可寫:<strong>%s</strong>.<br/><small>請將以下賬户<strong>設置為</strong><strong>777或IIS賬户有寫入權限(win系統)</strong>.</small>";
 $definitions["message.installerWelcome"] = "<p>感謝你選擇esoTalk,程序需要收集一些信息以便安裝.</p>\n<p>如果安裝有問題可以到<a target='_blank' href='%s'>esoTalk論壇</a>求助.</p>";
 $definitions["message.invalidChannel"] = "無效的節點";
 $definitions["message.invalidEmail"] = "無效的Email地址";
-$definitions["message.invalidUsername"] = "用戶名過長或格式不對";
+$definitions["message.invalidUsername"] = "用户名過長或格式不對";
 $definitions["message.javascriptRequired"] = "此網頁需要不支持您的瀏覽器!";
 $definitions["message.languageUninstalled"] = "語言包卸載成功!";
 $definitions["message.locked"] = "話題被<strong>鎖定</strong>,不能回覆.";
@@ -486,29 +486,29 @@ $definitions["message.noSearchResults"] = "沒有相關話題";
 $definitions["message.noSearchResultsMembers"] = "沒有這個會員.";
 $definitions["message.noSearchResultsPosts"] = "沒有相關內容.";
 $definitions["message.noSkinsInstalled"] = "沒有已安裝主題!";
-$definitions["message.notWritable"] = "<code>%s</code>不可寫,請<code>設置</code>爲<code>777</code>或可寫.";
+$definitions["message.notWritable"] = "<code>%s</code>不可寫,請<code>設置</code>為<code>777</code>或可寫.";
 $definitions["message.pageNotFound"] = "找不到該頁面,可能不存在.";
 $definitions["message.passwordChanged"] = "密碼已重置,一定要牢記！別忘了！";
 $definitions["message.passwordEmailSent"] = "服務器已經給你發送一封電子郵件,其中包含一個鏈接來重置你的密碼! 請檢查你的收信箱,如果沒有收到,請檢查是否在垃圾箱內.";
 $definitions["message.passwordsDontMatch"] = "密碼不正確!";
 $definitions["message.passwordTooShort"] = "密碼太短了，至少要6位！";
-$definitions["message.pluginCannotBeEnabled"] = "插件<em>%s</em>不能正常開啓: %s";
+$definitions["message.pluginCannotBeEnabled"] = "插件<em>%s</em>不能正常開啟: %s";
 $definitions["message.pluginDependencyNotMet"] = "你必須升級到 %s 版本 %s 才能安裝並使用這個插件.";
 $definitions["message.pluginUninstalled"] = "卸載成功.";
 $definitions["message.postNotFound"] = "找不到相關內容";
-$definitions["message.postTooLong"] = "你說得太多了,已經超過了最大字符數了, 最多支持%s字符. ";
+$definitions["message.postTooLong"] = "你説得太多了,已經超過了最大字符數了, 最多支持%s字符. ";
 $definitions["message.preInstallErrors"] = "安裝之前,請先解決下以幾個錯誤:";
 $definitions["message.preInstallWarnings"] = "安裝之前,請先解決下以幾個錯誤,你也可以繼續安裝,但是功能會受到一些限制.";
 $definitions["message.reduceNumberOfGambits"] = "請減少一些關鍵詞,這樣可以搜索到更廣泛的內容.";
-$definitions["message.registerGlobalsWarning"] = "PHP'的<strong>全局註冊</strong>已經打開<br/><small>雖然esoTalk可以正常運行,但是爲了安全,建議關閉!</small>";
+$definitions["message.registerGlobalsWarning"] = "PHP'的<strong>全局註冊</strong>已經打開<br/><small>雖然esoTalk可以正常運行,但是為了安全,建議關閉!</small>";
 $definitions["message.registrationClosed"] = "暫不開放註冊.";
 $definitions["message.removeDirectoryWarning"] = "請確保刪除以下目錄<code>%s</code>以保證esoTalk安全運行.";
-$definitions["message.safeModeWarning"] = "<strong>安全模式</strong>已經開啓.<br/><small>如果不關閉可能會導致esoTalk運行錯誤</small>";
+$definitions["message.safeModeWarning"] = "<strong>安全模式</strong>已經開啟.<br/><small>如果不關閉可能會導致esoTalk運行錯誤</small>";
 $definitions["message.searchAllConversations"] = "請嘗試在所有話題中搜索這個關鍵詞.";
 $definitions["message.setNewPassword"] = "請輸入新密碼.";
 $definitions["message.skinUninstalled"] = "主題卸載成功!";
-$definitions["message.suspended"] = "管理員<strong>屏蔽</strong>了你的帳戶.在被解除之前,你無法進行任何操作!";
-$definitions["message.suspendMemberHelp"] = "屏蔽 %s 將限制他們在論壇裏的發佈話題及回覆行爲,僅保留與訪客一樣的權限.";
+$definitions["message.suspended"] = "管理員<strong>屏蔽</strong>了你的帳户.在被解除之前,你無法進行任何操作!";
+$definitions["message.suspendMemberHelp"] = "屏蔽 %s 將限制他們在論壇裏的發佈話題及回覆行為,僅保留與訪客一樣的權限.";
 $definitions["message.tablePrefixConflict"] = "安裝程序檢測到數據庫內已經有相同前輟<br/>覆蓋這些數據, 請再次點擊'安裝我的論壇'.<strong>舊的數據將會丟失.</strong><br/>如果你將新建一個全新的論壇, <strong>請修改註冊表前輟</strong>.";
 $definitions["message.unsuspendMemberHelp"] = "解凍 %s 將恢復他們的正常會員權限.";
 $definitions["message.upgradeSuccessful"] = "升級成功.";
@@ -524,8 +524,8 @@ $definitions["email.footer"] = "<p>(如果您不想再收到類似郵件，您�
 $definitions["email.confirmEmail.subject"] = "%1\$s，請確認您的Email地址";
 $definitions["email.confirmEmail.body"] = "<p>有個人 （但願是你） 在“%1\$s”註冊時填寫了這個郵箱地址</p><p>如果是你本人操作的話，請點擊這個鏈接完成註冊。 :-)<br>%2\$s</p>";
 
-$definitions["email.approved.subject"] = "%1\$s,你已經正式成爲我們的成員了。";
-$definitions["email.approved.body"] = "<p>你的賬戶%1\$s已審覈通過，</p><p>請到這裏去說說話吧<br>%2\$s</p>";
+$definitions["email.approved.subject"] = "%1\$s,你已經正式成為我們的成員了。";
+$definitions["email.approved.body"] = "<p>你的賬户%1\$s已審核通過，</p><p>請到這裏去説説話吧<br>%2\$s</p>";
 
 $definitions["email.forgotPassword.subject"] = "好久不見！%1\$s，你真的忘記密碼了嗎？";
 $definitions["email.forgotPassword.body"] = "<p>有個人 （但願是你） 在“%1\$s”忘記了密碼，這封郵件正是重置密碼的認證郵件，如果不是你，你可以忽略這封郵件。</p><p>然而，如果是你忘記了的話，請點擊鏈接完成重置密碼<br>%2\$s</p>";
