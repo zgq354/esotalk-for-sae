@@ -16,7 +16,8 @@ if (!defined("IN_ESOTALK")) exit;
 <meta charset='<?php echo T("charset", "utf-8"); ?>'>
 <title><?php echo sanitizeHTML($data["pageTitle"]); ?></title>
 <?php echo $data["head"]; ?>
-v<link rel="apple-touch-icon" href="<?php echo getResource("core/skin/apple-touch-icon.png");?>">
+<link rel="icon" type="image/png" href="<?php echo getResource("core/skin/favicon.png");?>">		+v<link rel="apple-touch-icon" href="<?php echo getResource("core/skin/apple-touch-icon.png");?>">
+<link rel="apple-touch-icon" href="<?php echo getResource("core/skin/apple-touch-icon.png");?>">
 </head>
 
 <body class='<?php echo $data["bodyClass"]; ?>'>
