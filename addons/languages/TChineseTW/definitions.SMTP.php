@@ -1,6 +1,6 @@
 <?php
-$definitions["Server"] = "服務器";
-$definitions["Port"] = "端口";
+$definitions["Server"] = "伺服器";
+$definitions["Port"] = "埠";
 $definitions["Authentication"] = "驗證";
 $definitions["Normal"] = "正常";
 $definitions["TLS"] = "TLS";
