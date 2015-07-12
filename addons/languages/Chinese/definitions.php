@@ -3,13 +3,13 @@
 // This file is part of esoTalk. Please see the included license file for usage information.
 
 ET::$languageInfo["Chinese"] = array(
-	"locale" => "zh-CN",
-	"name" => "简体中文",
-	"description" => "简体中文语言包",
+	"locale" => "zh-HK",
+	"name" => "大陆简体中文",
+	"description" => "中文语言包",
 	"version" => ESOTALK_VERSION,
-	"author" => "esotalk",
-	"authorEmail" => "i@izgq.net",
-	"authorURL" => "izgq.net",
+	"author" => "akarin",
+	"authorEmail" => "h@akarin.xyz",
+	"authorURL" => "akarin.xyz",
 	"license" => "GPLv2"
 );
 
@@ -245,7 +245,7 @@ $definitions["Manage Languages"] = "管理语言";
 $definitions["Manage your forum's channels (categories)"] = "管理社区节点（分类）";
 $definitions["Mark as read"] = "标为已读";
 $definitions["Mark as unread"] = "标为未读";
-$definitions["Mark all as read"] = "全部标记为已读"; 
+$definitions["Mark all as read"] = "全部标记为已读";
 $definitions["Mark listed as read"] = "标记列表为已读";
 $definitions["Maximum size of %s. %s."] = "最大%s , 只支持%s";
 $definitions["Member groups"] = "会员组";
