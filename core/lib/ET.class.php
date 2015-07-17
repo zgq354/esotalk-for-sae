@@ -213,6 +213,31 @@ public static function loadConfig($file)
 	if ($config) ET::$config = array_merge(ET::$config, $config);
 }
 
+/**
+ * Load values from kvdb into the config array.
+ *
+ * @param string $file The config file to load values from.
+ * @param string $file2 The config file will load while first config file load failed
+ * @return void
+ */
+public static function loadConfigInkv()
+{
+	$kv = new SaeKV();
+	// 初始化SaeKV对象
+	$kv->init();
+	// 得到key-value
+    if($conf = $kv->get('site_config')){
+        eval($conf);
+        if ($config) ET::$config = array_merge(ET::$config, $config);
+    }else{
+        @include PATH_CONFIG."/config.php";
+		if ($config) ET::$config = array_merge(ET::$config, $config);
+        foreach ($config as $k => $v) $contents .= '$config["'.$k.'"] = '.var_export($v, true).";\n";
+        $kv->set('site_config', $contents);
+    }
+    unset($kv);
+    
+}
 
 /**
  * Fetch the value of a configuration option, falling back to a default if it isn't set.
@@ -244,9 +269,17 @@ public static function writeConfig($values)
 	self::$config = array_merge(self::$config, $values);
 
 	// Finally, loop through and write the config array to the config file.
-	$contents = "<?php\n";
+    $con = "<?php\n";
+	$contents = "";
 	foreach ($config as $k => $v) $contents .= '$config["'.$k.'"] = '.var_export($v, true).";\n";
-	$contents .= "\n// Last updated by: ".ET::$session->user["username"]." (".ET::$session->ip.") @ ".date("r")."\n?>";
+    
+    $kv = new SaeKV();
+	// 初始化SaeKV对象
+	$kv->init();
+	// 更新key-value
+	$kv->set('site_config', $contents);
+	unset($kv);
+    $contents = $con.$contents."\n// Last updated by: ".ET::$session->user["username"]." (".ET::$session->ip.") @ ".date("r")."\n?>";
 	file_put_contents($file, $contents);
 }
 

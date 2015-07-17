@@ -412,6 +412,7 @@ function slug($string)
 	if (preg_match("/[^\x20-\x7f]/", $string)) {
 	
 		// Thanks to krakos for this code! http://esotalk.org/forum/582-unicode-in-usernames-and-url-s
+		/*
 		if (function_exists('transliterator_transliterate')) {
 			// Unicode decomposition rules states that these cannot be decomposed, hence
 			// we have to deal with them manually. Note: even though “scharfes s” is commonly
@@ -424,12 +425,13 @@ function slug($string)
 			$string = transliterator_transliterate("Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC; [:Punctuation:] Remove; Lower();", $string);
 		} 
 		else {
+		*/
 			// A fallback to old method.
 			// Convert special Latin letters and other characters to HTML entities.
 			$string = htmlentities($string, ENT_NOQUOTES, "UTF-8");
 			// With those HTML entities, either convert them back to a normal letter, or remove them.
 			$string = preg_replace(array("/&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml|caron);/i", "/&[^;]{2,6};/"), array("$1", " "), $string);
-		}
+		//}
 	}
 	// Allow plugins to alter the slug.
 	ET::trigger("slug", array(&$string));

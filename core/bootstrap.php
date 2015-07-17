@@ -79,7 +79,8 @@ if (PATH_CONFIG != PATH_ROOT."/config" and is_file($file = PATH_ROOT."/config/co
 
 // Include the real config file.
 //if (file_exists($file = PATH_CONFIG."/config.php")) ET::loadConfig($file);
-ET::loadConfig(PATH_CONFIG."/config.php");
+//ET::loadConfig(PATH_CONFIG."/config.php");
+ET::loadConfigInkv();
 
 // In debug mode, show all errors (except for strict standards).
 if (C("esoTalk.debug")) error_reporting(E_ALL & ~E_STRICT);
