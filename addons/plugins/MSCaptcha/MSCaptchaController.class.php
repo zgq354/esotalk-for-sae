@@ -22,18 +22,40 @@ Class MSCaptchaController extends ETController {
 		imagefill($src, 0, 0, $white);
 		//Prevent the spider use the same number as captcha to register automaticly.
 		$cc = ET::$session->get('inputmscaptha');
+        $errnum = ET::$session->get('capthaerrnum');
+        if(!$errnum) $errnum = 0;
 		while (true){
-			// Genrate random number
-			$a = rand(1, 20);
-			$b = rand(1, 20);
 			// Get the code
-			$c = $a + $b;
+            $x = array_rand(array("+","*"),1);
+            if($x == 0){
+				// Genrate random number
+				$a = rand(10, 50);
+				$b = rand(10, 50);
+				$c = $a + $b;
+            }else{
+                $a = rand(5, 10);
+				$b = rand(5, 10);
+                $c = $a * $b;
+            }
+            //增大恶意刷注册撞中的难度
+            if($errnum > 5){
+                $x = 1;
+                $a = rand(5, 20);
+				$b = rand(5, 20);
+                $c = $a * $b;
+            }
+            if($errnum > 15){
+                $x = 1;
+                $a = rand(50, 99);
+				$b = rand(50, 99);
+                $c = $a * $b;
+            }
 			if ($c != $cc) break;
 		}
 		// Genrate session of code
 		ET::$session->store('mscaptcha', $c);
 		
-		$arr = array($a, '+', $b, '=', '?');
+        $arr = array($a, $x==0?'+':' x ', $b, '=', '?');
 		// Create Image from code
 		for($i = 0; $i < count($arr); $i++) {
 			$color = imagecolorallocatealpha(
