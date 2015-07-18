@@ -19,7 +19,7 @@ esoTalk SAE移植版本
 5. 在storage中创建一个名为esotalk的domain
 6. 初始化分词服务
 7. 访问你的应用地址，按提示安装即可
-
+8. 到插件页面开启要用的插件（建议开启bbcode，MSCaptcha(验证码)和SMTP（邮件发送）插件）
 遇到问题或bug，可在 [http://esotalks.sinaapp.com/](http://esotalks.sinaapp.com/) 上求助。或提交issue
 
 欢迎大家和我一同完善这个项目~
