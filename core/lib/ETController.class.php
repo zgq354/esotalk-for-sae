@@ -655,7 +655,7 @@ public function getViewPath($view)
 	if(empty($narr)) $narr = array();
 
 
-	if(empty($this->views_filename) || $this->views_filename[$view] == false){
+	if(empty($this->views_filename) || (isset($this->views_filename[$view]) ? $this->views_filename[$view] : false) == false){
 
 		// Check the skin to see if it contains this view.
 		if (file_exists($skinView = ET::$skin->view($view))){
@@ -813,7 +813,7 @@ protected function aggregateFiles($files, $type)
 	//while $narr is empty create an new array
 	if(empty($narr)) $narr = array();
 
-    if(empty($_filenames) || $_filenames[$key] == false){
+    if(empty($_filenames) || (isset($_filenames[$key])?$_filenames[$key]:false) == false){
         if(!file_exists($filesae)){
             
 			$contents = "";

@@ -347,7 +347,7 @@ public static function loadLanguage($language = "")
 
 	// Loop through the loaded plugins and include their definition files, if they exist.
 	foreach (C("esoTalk.enabledPlugins") as $plugin) {
-		if(empty(self::$language_filename) || self::$language_filename[$plugin] == false){
+		if(empty(self::$language_filename) || (isset(self::$language_filename[$plugin])?self::$language_filename[$plugin]:false) == false){
 			if (file_exists($file = "$languagePath/definitions.".sanitizeFileName($plugin).".php")){
 				self::loadDefinitions($file);
 				self::$language_filename[$plugin] = $file;
