@@ -326,6 +326,7 @@ public function init()
 
 		// If config/custom.css contains something, add it to be included in the page.
 		//if (file_exists($file = PATH_CONFIG."/custom.css") and filesize($file) > 0) $this->addCSSFile("config/custom.css", true);
+		$this->addCSSFile("config/custom.css", true);
 
 	}
 
