@@ -1,6 +1,6 @@
 ## esoTalk for SinaAppEngine
 
-esoTalk SAE移植版本
+esoTalk SAE移植版本 -----Based on [esoTalk](http://esotalk.org/)
 
 ###说明
 
