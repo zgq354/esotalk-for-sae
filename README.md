@@ -24,6 +24,12 @@ esoTalk SAE移植版本 -----Based on [esoTalk](http://esotalk.org/)
 
 欢迎大家和我一同完善这个项目~
 
+##捐赠
+
+如果你觉得这个项目对你有帮助，不妨小额赞助我一下，让我更有动力地把它完善下去^_^
+
+[赞助链接](http://blog.izgq.net/page/donate.html)
+
 ## esoTalk – Fat-free forum software
 
 esoTalk is a free, open-source forum software package built with PHP and MySQL. It is designed to be:
