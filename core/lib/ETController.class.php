@@ -829,6 +829,8 @@ protected function aggregateFiles($files, $type)
 	
 			// Minify and write the contents.
 			file_force_contents($filesae, $type == "css" ? minifyCSS($contents) : minifyJS($contents));
+			//更新静态缓存
+			refresh_remote_cache("cache/$type/".$_name.".$type");
         }
         //memcache
         $_filenames[$key] = $key;

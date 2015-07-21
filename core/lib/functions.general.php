@@ -1095,6 +1095,16 @@ function clear_skincache($pre)
 	return true;
 }
 /**
+ * Refresh the remote resource cache in the cdn
+ * 
+ * @param string The uri
+ * @return void
+ */
+function refresh_remote_cache($uri)
+{
+    if ($return = ET::first("refresh_remote_cache", array($uri))) return $return;
+}
+/**
  * Spilt the Chinese words with segmentation service.
  * 
  * @param string The sentence that to spilt.
