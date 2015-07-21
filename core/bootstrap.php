@@ -325,7 +325,7 @@ else {
 	if($requestParts[0] == 't') $requestParts[0] = 'conversation';
 
 	// If the first character of the URL parameter is numeric, assume the conversation controller.
-	if ($requestParts[0] and is_numeric($requestParts[0][0])) array_unshift($requestParts, "conversation");
+	//if ($requestParts[0] and is_numeric($requestParts[0][0])) array_unshift($requestParts, "conversation");
 }
 
 // Parse the request store all of the request information.
