@@ -15,11 +15,12 @@ esoTalk SAE移植版本 -----Based on [esoTalk](http://esotalk.org/)
 1. 在sae后台中创建应用，选择PHP5.6环境(PHP5.3也可以)，并在代码管理页创建一个版本
 2. 下载本项目的代码[(最新代码)](https://github.com/zgq354/esotalk-for-sae/archive/master.zip)，解压后将文件中的代码打包上传或用svn推送至sae中
 3. 初始化mysql(选MyISAM引擎)
-4. 初始化memcache(容量5M即可，多点也无所谓)
-5. 在storage中创建一个名为esotalk的domain
-6. 初始化分词服务
-7. 访问你的应用地址，按提示安装即可
-8. 到插件页面开启要用的插件（建议开启bbcode，MSCaptcha(验证码)和SMTP（邮件发送）插件）
+4. 初始化kvdb
+5. 初始化memcache(容量5M即可，多点也无所谓)
+6. 在storage中创建一个名为esotalk的domain
+7. 初始化分词服务
+8. 访问你的应用地址，按提示安装即可
+9. 到插件页面开启要用的插件（建议开启bbcode，MSCaptcha(验证码)和SMTP（邮件发送）插件）
 遇到问题或bug，可在 [http://esotalks.sinaapp.com/](http://esotalks.sinaapp.com/) 上求助。或提交issue
 
 欢迎大家和我一同完善这个项目~
