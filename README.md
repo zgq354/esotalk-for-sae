@@ -29,7 +29,7 @@ esoTalk SAE移植版本 -----Based on [esoTalk](http://esotalk.org/)
 
 如果你觉得这个项目对你有帮助，不妨小额赞助我一下，让我更有动力地把它完善下去^_^
 
-[赞助链接](http://blog.izgq.net/page/donate.html)
+[赞助链接](http://blog.izgq.net/donate.html)
 
 ## esoTalk – Fat-free forum software
 
